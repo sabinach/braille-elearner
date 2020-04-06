@@ -12,7 +12,7 @@ Make sure your conda, python, and python3 aliases in ~/.bash_profile are comment
 ```deactivate```
 
 #### To run script:
-```cd final_project```
+```cd final_project```            
 ```python track_finger.py```
 
 ---
