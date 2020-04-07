@@ -3,7 +3,6 @@ import sys
 sys.path.insert(0, 'lib/')
 import Leap
 import string
-import time
 import pygame
 import speech_recognition as sr
 from params import *
@@ -16,11 +15,6 @@ process_speech = False
 previous_cell = -1
 current_cell = None
 
-previous_time = None
-current_time = None
-
-processed_time = False
-
 
 def speak(text):
     table = string.maketrans("","")
@@ -29,7 +23,7 @@ def speak(text):
 
 
 def get_frame(controller):
-    global audio_input, process_speech, previous_cell, current_cell, previous_time, current_time, processed_time
+    global audio_input, process_speech, previous_cell, current_cell
 
     #print("Frame available")
     frame = controller.frame()
@@ -53,32 +47,26 @@ def get_frame(controller):
                     # finger moved to new cell
                     if current_cell != previous_cell:
                         previous_cell = current_cell
-                        previous_time = time.time()
-                        processed_time = True
 
                     # don't process passing movements
-                    elif processed_time and current_cell==previous_cell:
-                        print("a")
-                        current_time = time.time()
-                        hold_time = current_time - previous_time
+                    elif current_cell==previous_cell:
 
-                        if hold_time > FINGER_HOLD_TIME:
-                            print("b")
+                        if process_speech:
+                            letter = BRAILLE[current_cell]
+                            print("cell: {}, letter: {}".format(current_cell, letter))
 
-                            if process_speech:
-                                print("c")
-                                letter = BRAILLE[current_cell]
-                                print("cell: {}, letter: {}".format(current_cell, letter))
+                            if audio_input == letter:
+                                print("Correct!")
+                                speak("Correct! This is: {}".format(letter))
+                            elif audio_input == "help":
+                                print("Help!")
+                                speak("This is: {}".format(letter))
+                            else:
+                                print("Try again!")
+                                speak("Try again!")
 
-                                if audio_input == letter:
-                                    speak("Correct! This is: {}".format(letter))
-                                elif audio_input == "help":
-                                    speak("This is: {}".format(letter))
-                                else:
-                                    speak("Try again!")
-
-                                processed_time = False
-                                process_speech = False
+                            process_speech = False
+                            print("")
 
 
 
@@ -87,7 +75,7 @@ def sphinx_api(recognizer, audio):
     parsed_audio = None
     try:
         parsed_audio = recognizer.recognize_sphinx(audio)
-        print("Sphinx thinks you said " + parsed_audio)
+        print("Sphinx thinks you said: ".format(parsed_audio))
     except sr.UnknownValueError:
         print("Sphinx could not understand audio")
     except sr.RequestError as e:
@@ -100,7 +88,7 @@ def google_api(recognizer, audio):
     parsed_audio = None
     try:
         parsed_audio = recognizer.recognize_google(audio)
-        print("Google Speech Recognition thinks you said " + parsed_audio)
+        print("Google Speech Recognition thinks you said: ".format(parsed_audio))
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except sr.RequestError as e:
@@ -115,6 +103,7 @@ def listen(api):
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
         print("Say something!")
+        speak("Listening")
         audio = recognizer.listen(source)
         audio_input = None
 
@@ -151,6 +140,14 @@ def review_mode(controller):
     
 if __name__ == '__main__':
 
+    #------- Welcome Speech -------#
+
+    # welcome speech (instructions)
+    review_intro = "Please move your right finger over each braille cell. To check the letter of the current cell, press ENTER on the keyboard, and vocalize your guess clearly. To ask for help, press ENTER and say HELP."
+    speak(review_intro)
+
+    #------- Pygame -------#
+
     # initialize pygame display
     pygame.init()
 
@@ -164,7 +161,7 @@ if __name__ == '__main__':
     controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD)  # Head-mounted tracking
     #controller.set_policy(Leap.Controller.POLICY_IMAGES)       # Receive images
 
-    #------- Pygame -------#
+    #------- Review Mode -------#
 
     review_mode(controller)
 

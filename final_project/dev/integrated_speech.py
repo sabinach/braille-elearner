@@ -14,7 +14,7 @@ def sphinx_api(recognizer, audio):
     # recognize speech using Sphinx
     try:
         parsed_audio = recognizer.recognize_sphinx(audio)
-        print("Sphinx thinks you said " + parsed_audio)
+        print("Sphinx thinks you said: ".format(parsed_audio))
         speak("You said {}".format(parsed_audio))
     except sr.UnknownValueError:
         print("Sphinx could not understand audio")
@@ -26,7 +26,7 @@ def google_api(recognizer, audio):
     # recognize speech using Google Speech Recognition
     try:
         parsed_audio = recognizer.recognize_google(audio)
-        print("Google Speech Recognition thinks you said " + parsed_audio)
+        print("Google Speech Recognition thinks you said: ".format(parsed_audio))
         speak("You said {}".format(parsed_audio))
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")

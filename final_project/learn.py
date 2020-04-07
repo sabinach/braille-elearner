@@ -28,6 +28,7 @@ class IndexFinger(Leap.Listener):
 
         self.processed = False
 
+
     def on_connect(self, controller):
         print("Connected")
 
@@ -93,4 +94,14 @@ def learn_mode():
 
 
 if __name__ == "__main__":
+
+    #------- Welcome Speech -------#
+
+    # welcome speech (instructions)
+    learn_intro = "Please move your right finger over each braille cell to hear its symbol name. Keep your hand extended, and make sure the leap motion visualizer recognizes your RIGHT hand. Reset by removing your hand from view if necessary."
+    speak(learn_intro)
+
+    #------- Learn Mode -------#
+
     learn_mode()
+
