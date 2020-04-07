@@ -1,30 +1,12 @@
-import os
 import sys
-sys.path.insert(0, 'lib/')
+sys.path.insert(0, '../lib/')
 import Leap
-import string
-
-
-MIN_X = -146 # rightmost
-MAX_X = 25  # leftmost
-NUM_CELLS = 10
-CELL_LENGTH = (MAX_X-MIN_X)/(NUM_CELLS)
-
-braille_cells = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 6: 'f', 7: 'g', 8: 'h', 9: 'i'}
-
-
-def speak(text):
-    table = string.maketrans("","")
-    cleaned_text = text.translate(table, string.punctuation) 
-    os.system("say '{}'".format(cleaned_text))
-
+from Leap import *
 
 class Pointer(Leap.Listener):
 
     def on_init(self, controller):
         self.TRANSLATION_PROBABILITY_THRESHOLD = 0.5
-        self.previous_cell = -1
-        self.current_cell = 0
 
     def on_connect(self, controller):
         print("Connected")
@@ -48,14 +30,7 @@ class Pointer(Leap.Listener):
                     # 1: index finger, 0: only one index finger on right hand
                     index_finger = right_hand.fingers.finger_type(1)[0] 
                     x = index_finger.stabilized_tip_position.x
-
-                    # get current braille cell
-                    if (x>MIN_X and x<MAX_X):
-                        self.current_cell = max(0, 9 - int((x-MIN_X)/CELL_LENGTH))
-                        if self.current_cell != self.previous_cell:
-                            self.previous_cell = self.current_cell
-                            print(self.current_cell)
-                            speak(str(self.current_cell))
+                    print(x)
 
 def main():
 
