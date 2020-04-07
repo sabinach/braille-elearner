@@ -11,9 +11,20 @@ Make sure your conda, python, and python3 aliases in ~/.bash_profile are comment
 #### To deactivate venv
 ```deactivate```
 
-#### To run script:
+#### To run script
 ```cd final_project```            
-```python track_finger.py```
+```python learn.py```          
+```python review.py```
+
+#### To calibrate min/max x
+```python calibrate.py```
+
+#### To set parameters
+```vim params.py```
+
+#### Resources
+Github: https://github.com/sabinach/braille-elearner            
+Google Drive: https://drive.google.com/open?id=1K208hmm3INAFm0PU6VYHRwKYAI7I794L
 
 ---
 
