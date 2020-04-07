@@ -32,6 +32,22 @@ class IndexFinger(Leap.Listener):
                     x = index_finger.stabilized_tip_position.x
                     print(x)
 
+
+class HandRaise(Leap.Listener):
+
+    def on_connect(self, controller):
+        print("Connected")
+
+    def on_frame(self, controller):
+        print("Frame available")
+        frame = controller.frame()
+        left_hand = list(filter(lambda hand: hand.is_left, frame.hands))
+
+        # get left hand
+        if left_hand:
+            left_hand = left_hand[0]
+
+
 def main():
 
     # Controller
@@ -40,10 +56,12 @@ def main():
     #controller.set_policy(Leap.Controller.POLICY_IMAGES)       # Receive images
 
     # Listener
-    indexFinger = IndexFinger()
+    #indexFinger = IndexFinger()
+    handRaise = HandRaise()
 
     # Have listeners receive events from the controller
-    controller.add_listener(indexFinger)
+    #controller.add_listener(indexFinger)
+    controller.add_listener(handRaise)
 
     # Keep this process running until Enter is pressed
     print("Press Enter to quit...")
@@ -52,7 +70,8 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        controller.remove_listener(indexFinger)
+        #controller.remove_listener(indexFinger)
+        controller.remove_listener(handRaise)
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ MAX_X = 24  # leftmost
 NUM_CELLS = 10
 CELL_LENGTH = (MAX_X-MIN_X)/(NUM_CELLS)
 
-braille_cells = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 6: 'f', 7: 'g', 8: 'h', 9: 'i'}
+BRAILLE = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h', 8: 'i', 9:'j'}
 
 
 def speak(text):
@@ -21,7 +21,7 @@ def speak(text):
     os.system("say '{}'".format(cleaned_text))
 
 
-class Pointer(Leap.Listener):
+class IndexFinger(Leap.Listener):
 
     def on_init(self, controller):
         self.HAND_CONFIDENCE_THRESH = 0.5
@@ -65,10 +65,12 @@ class Pointer(Leap.Listener):
                             self.current_time = time.time()
                             hold_time = self.current_time - self.previous_time
                             if hold_time > self.FINGER_HOLD_TIME:
-                                print(self.current_cell)
-                                speak(str(self.current_cell))
+                                letter = BRAILLE[self.current_cell]
+                                print("cell: {}, letter: {}".format(self.current_cell, letter))
+                                speak(letter)
                                 self.processed = False
 
+                        # finger moved to new cell
                         elif self.current_cell != self.previous_cell:
                             self.previous_cell = self.current_cell
                             self.previous_time = time.time()
@@ -83,10 +85,10 @@ def main():
     #controller.set_policy(Leap.Controller.POLICY_IMAGES)       # Receive images
 
     # Listener
-    pointer = Pointer()
+    indexFinger = IndexFinger()
 
     # Have listeners receive events from the controller
-    controller.add_listener(pointer)
+    controller.add_listener(indexFinger)
 
     # Keep this process running until Enter is pressed
     print("Press Enter to quit...")
@@ -95,7 +97,7 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        controller.remove_listener(pointer)
+        controller.remove_listener(indexFinger)
 
 
 if __name__ == "__main__":
