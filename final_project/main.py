@@ -3,10 +3,12 @@ import sys
 sys.path.insert(0, 'lib/')
 import Leap
 import string
+import time
 
-
+# Parameters
 MIN_X = -146 # rightmost
-MAX_X = 25  # leftmost
+MAX_X = 24  # leftmost
+
 NUM_CELLS = 10
 CELL_LENGTH = (MAX_X-MIN_X)/(NUM_CELLS)
 
@@ -22,9 +24,17 @@ def speak(text):
 class Pointer(Leap.Listener):
 
     def on_init(self, controller):
-        self.TRANSLATION_PROBABILITY_THRESHOLD = 0.5
+        self.HAND_CONFIDENCE_THRESH = 0.5
+        self.TRANSLATION_PROB_THRESH = 0.5
+        self.FINGER_HOLD_TIME = 0.8
+
         self.previous_cell = -1
-        self.current_cell = 0
+        self.current_cell = None
+
+        self.previous_time = None
+        self.current_time = None
+
+        self.processed = False
 
     def on_connect(self, controller):
         print("Connected")
@@ -39,23 +49,31 @@ class Pointer(Leap.Listener):
         if right_hand:
             right_hand = right_hand[0]
 
-            # facing downwards
-            if right_hand.palm_normal[1]>0:
-
-                # estimated probability that the hand motion between the current frame and the specified frame is intended to be a translating motion
-                if right_hand.translation_probability > self.TRANSLATION_PROBABILITY_THRESHOLD:
+            # check: facing downwards, hand confidence, translation prob
+            if (right_hand.palm_normal[1]>0) and (right_hand.confidence>self.HAND_CONFIDENCE_THRESH) and (right_hand.translation_probability>self.TRANSLATION_PROB_THRESH):
 
                     # 1: index finger, 0: only one index finger on right hand
                     index_finger = right_hand.fingers.finger_type(1)[0] 
                     x = index_finger.stabilized_tip_position.x
 
                     # get current braille cell
-                    if (x>MIN_X and x<MAX_X):
+                    if x>MIN_X and x<MAX_X:
                         self.current_cell = max(0, 9 - int((x-MIN_X)/CELL_LENGTH))
-                        if self.current_cell != self.previous_cell:
+
+                        # don't process passing movements
+                        if self.processed and self.current_cell==self.previous_cell:
+                            self.current_time = time.time()
+                            hold_time = self.current_time - self.previous_time
+                            if hold_time > self.FINGER_HOLD_TIME:
+                                print(self.current_cell)
+                                speak(str(self.current_cell))
+                                self.processed = False
+
+                        elif self.current_cell != self.previous_cell:
                             self.previous_cell = self.current_cell
-                            print(self.current_cell)
-                            speak(str(self.current_cell))
+                            self.previous_time = time.time()
+                            self.processed = True
+
 
 def main():
 
