@@ -32,7 +32,6 @@ class Pointer(Leap.Listener):
                     x = index_finger.stabilized_tip_position.x
                     print(x)
 
-
 def main():
 
     # Controller
