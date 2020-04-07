@@ -47,6 +47,11 @@ class HandRaise(Leap.Listener):
         if left_hand:
             left_hand = left_hand[0]
 
+            # raise hand:
+            # "a" -> correct!
+            # "b" -> incorrect!
+            # answer -> "a"
+
 
 def main():
 

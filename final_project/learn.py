@@ -4,15 +4,7 @@ sys.path.insert(0, 'lib/')
 import Leap
 import string
 import time
-
-# Parameters
-MIN_X = -146 # rightmost
-MAX_X = 24  # leftmost
-
-NUM_CELLS = 10
-CELL_LENGTH = (MAX_X-MIN_X)/(NUM_CELLS)
-
-BRAILLE = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h', 8: 'i', 9:'j'}
+from params import *
 
 
 def speak(text):
@@ -77,7 +69,7 @@ class IndexFinger(Leap.Listener):
                             self.processed = True
 
 
-def main():
+def learn_mode():
 
     # Controller
     controller = Leap.Controller()
@@ -101,4 +93,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    learn_mode()
