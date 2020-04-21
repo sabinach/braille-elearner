@@ -11,16 +11,22 @@ Make sure your conda, python, and python3 aliases in ~/.bash_profile are comment
 #### To deactivate venv
 ```deactivate```
 
+#### Global calibration
+```cd final_project/calibration```           
+```python calibrate_pegslate.py``` (leap: minX, maxX)                
+```python calibrate_dots.py``` (camera: calibrate cell/dot boundaries) 
+
 #### To run script
-```cd final_project```            
+```cd final_project/user```            
+```python setup.py```          
 ```python learn.py```          
 ```python review.py```
 
-#### To calibrate min/max x
-```python calibrate.py```
-
 #### To set parameters
 ```vim params.py```
+
+#### Helper functions
+```vim utils.py```
 
 #### Resources
 Github: https://github.com/sabinach/braille-elearner            
@@ -35,12 +41,12 @@ Video: https://youtu.be/wEaPDDkwDiw
 Slides: https://drive.google.com/open?id=1tEz1OheHGrnJrmK5jLfY6nWv8qXapQIAwwBbB38WqdY
 
 #### Prototype Studio
-Video: TBD      
-Slides: TBD      
+Video: https://youtu.be/Sj2WTw3c4sc      
+Slides: https://drive.google.com/open?id=1GFmHU4PHQUvV5RwFjD5UO8hYAmBete4IV2XkY2GFOoQ      
 
 #### Implementation Studio
 Video: TBD     
-Slides: TBD     
+Slides: https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM     
 
 #### Final Report
 Paper: TBD
