@@ -39,5 +39,6 @@ RED = (0,0,255)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
-# Dot boundary calibration (debugging -- calibrate_dots.py)
-SHOW_PEG_BOUNDS = True
+# Dot boundary calibration (debugging -- calibrate_camera.py)
+PEG_COLORS = {0: (53, 211, 81), 1: (13, 23, 143), 2: (69, 121, 215), 3: (165, 78, 248), 4: (83, 207, 204), 5: (185, 240, 217), 6: (136, 220, 14)}
+

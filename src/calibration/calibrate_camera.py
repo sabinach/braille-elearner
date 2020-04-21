@@ -15,12 +15,9 @@ curr_dir = Path(os.getcwd())
 root_dir = str(curr_dir.parent.parent)
 
 
-def number_pegs(img, peg_centers, x_dividers, show_peg_bounds):
-
-    peg_color = {0: (53, 211, 81), 1: (13, 23, 143), 2: (69, 121, 215), 3: (165, 78, 248), 4: (83, 207, 204), 5: (185, 240, 217), 6: (136, 220, 14)}
+def number_pegs(img, peg_centers, x_dividers):
 
     center_identifiers = {}
-    dot_boundaries = []
 
     # cell
     cell_nums = {} 
@@ -60,24 +57,7 @@ def number_pegs(img, peg_centers, x_dividers, show_peg_bounds):
             center_identifiers[center]["dot"] = dot
             dot += 1
 
-    
-    # color pegs based on color
-    if show_peg_bounds:
-        length = 20
-        for center in center_identifiers:
-            cell = center_identifiers[center]["cell"]
-            dot = center_identifiers[center]["dot"]
-            (cX, cY) = center
-
-            dot_boundaries.append({  "cell": cell, 
-                                        "dot": dot, 
-                                        "top_left": (cX-length, cY-length), 
-                                        "bottom_right": (cX+length, cY+length)
-                                    }) 
-
-            cv2.rectangle(img, (cX-length, cY-length), (cX+length, cY+length), peg_color[dot], 2)
-
-    return dot_boundaries
+    return center_identifiers
 
 
 
@@ -86,12 +66,13 @@ def get_video():
     print("Press ESC to save dot calibration")
 
     cap = cv2.VideoCapture(VIDEO_PORT)
+    
+    width  = int(cap.get(3)) # 1280
+    height = int(cap.get(4)) # 960
 
     while cv2.waitKey(200) & 0xFF != 27:
         # Capture frame-by-frame
         ret, frame = cap.read()
-        width  = int(cap.get(3)) # 1280
-        height = int(cap.get(4)) # 960
 
         ###-----------------------------------------###
 
@@ -111,7 +92,6 @@ def get_video():
         for (cX, cY) in peg_centers:
             cv2.circle(img, (cX, cY), 3, BLACK, -1)
 
-
         # cell dividers (x-axis)
         x_dividers = utils.get_dividers(img, width, height)
 
@@ -120,7 +100,28 @@ def get_video():
             cv2.line(img, (curr_x, 0), (curr_x, height), BLUE, 3)
 
         # mark cell numbers
-        dot_boundaries = number_pegs(img, peg_centers, x_dividers, show_peg_bounds=SHOW_PEG_BOUNDS)
+        center_identifiers = number_pegs(img, peg_centers, x_dividers)
+
+        # color pegs
+        length = 20
+        dot_boundaries = []
+        cell_boundaries = {}
+        for center in center_identifiers:
+            cell = center_identifiers[center]["cell"]
+            dot = center_identifiers[center]["dot"]
+            (cX, cY) = center
+            dot_boundaries.append({ "cell": cell, 
+                                    "dot": dot, 
+                                    "top_left": (cX-length, cY-length), 
+                                    "bottom_right": (cX+length, cY+length)
+                                }) 
+            cv2.rectangle(img, (cX-length, cY-length), (cX+length, cY+length), PEG_COLORS[dot], 2)
+
+            if dot==1 or dot==6:
+                if cell not in cell_boundaries:
+                    cell_boundaries[cell] = {dot: {'x': cX, 'y': cY}}
+                else:
+                    cell_boundaries[cell][dot] = {'x': cX, 'y': cY}
 
         ###-----------------------------------------###
 
@@ -129,9 +130,9 @@ def get_video():
         cv2.imshow('thresh', thresh)
 
 
-    # Save calibrated dot boundaries
+    # Save calibrated dot and cell boundaries
     utils.save_json(dot_boundaries, savepath=root_dir+"/json/dot_boundaries.json")
-
+    utils.save_json(cell_boundaries, savepath=root_dir+"/json/cell_boundaries.json")
 
     # When everything done, release the capture
     cap.release()

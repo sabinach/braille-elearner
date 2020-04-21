@@ -13,24 +13,19 @@ Make sure your conda, python, and python3 aliases in ~/.bash_profile are comment
 
 #### Global calibration
 ```cd src/calibration```           
-```python calibrate_pegslate.py``` (leap: minX, maxX)                
-```python calibrate_dots.py``` (camera: calibrate cell/dot boundaries) 
+```python calibrate_leap.py``` (finger minX, maxX)                
+```python calibrate_camera.py``` (save cell/dot boundaries) 
 
 #### To run script
 ```cd src/user```            
-```python setup.py```          
+```python generate.py```          
 ```python learn.py```          
 ```python review.py```
 
-#### To set parameters
-```vim params.py```
-
-#### Helper functions
+#### Parameters and Helper functions
+```cd src/user```            
+```vim params.py```                  
 ```vim utils.py```
-
-#### Resources
-Github: https://github.com/sabinach/braille-elearner            
-Google Drive: https://drive.google.com/open?id=1K208hmm3INAFm0PU6VYHRwKYAI7I794L
 
 ---
 
@@ -50,5 +45,60 @@ Slides: https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs
 
 #### Final Report
 Paper: TBD
+
+---
+
+## Manual Software Setup
+
+###Virtual Environment (venv)
+
+####Setup virtual environment
+```virtualenv venv -p python2.7```
+
+####Activate virtual environment
+```source venv/bin/activate```
+
+####Deactivate virtual environment
+```deactivate``` 
+
+
+###Package Installations
+
+####PyPi Speech Recognition
+https://pypi.org/project/SpeechRecognition/                             
+https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_recognition.py                         
+```pip install SpeechRecognition```
+
+####For microphone
+```brew install portaudio```
+```pip install pyaudio```
+
+####Google Web Speech API
+```pip install google-api-python-client```
+
+####Pygame
+```pip install pygame```
+
+####Pocket Sphinx API 
+```brew install swig git python```                        
+```pip install pocketsphinx```
+
+####For faster operations (optional)
+```pip install monotonic```
+
+####Text-to-speech (optional)
+```pip install pyttsx3```
+
+####OpenCV
+```pip install opencv-python```                          
+```pip install opencv-contrib-python```                   
+```pip install opencv-python-headless```
+
+####Numpy
+```pip install numpy``` 
+
+####Pathlib
+```pip install pathlib```
+
 
 

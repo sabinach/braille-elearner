@@ -14,13 +14,16 @@ root_dir = str(curr_dir.parent)
 
 def get_video():
 
+    # start camera
     cap = cv2.VideoCapture(VIDEO_PORT)
+
+    # video settings
+    width  = int(cap.get(3)) # 1280
+    height = int(cap.get(4)) # 960
 
     while cv2.waitKey(200) & 0xFF != 27:
         # Capture frame-by-frame
         ret, frame = cap.read()
-        width  = int(cap.get(3)) # 1280
-        height = int(cap.get(4)) # 960
 
         ###-----------------------------------------###
 
@@ -50,7 +53,9 @@ def get_video():
 
         # check if the user's pegslate symbols match the system's internal symbols        
         match_results = utils.match_symbols(cell_dot_locations, current_symbols, braille_symbols)
-        matched = utils.is_matched(match_results)
+        all_matched = utils.is_matched(match_results)
+
+
 
         ###-----------------------------------------###
 
