@@ -1,52 +1,21 @@
 import sys
-sys.path.insert(0, '..')
+sys.path.insert(0, '../user') # for utils.py, params.py
 
-import numpy as np
 import cv2          # Version 4.2.0
-from params import *
 import json
+import numpy as np
 
+import utils
+from params import *
+
+# get complete file name
 import os
-path = os.getcwd() 
-parent_dir = os.path.abspath(os.path.join(path, os.pardir))
+from pathlib import Path
+curr_dir = Path(os.getcwd())
+root_dir = str(curr_dir.parent.parent)
 
 
-def get_dividers(img, show_cell_dividers=SHOW_CELL_DIVIDERS):
-    
-    height = img.shape[0]
-    width = img.shape[1]
-
-    x_dividers = [0]
-    curr_x = 0
-    for i in range(NUM_CELLS):
-        curr_x += width/NUM_CELLS
-        x_dividers.append(curr_x)
-
-        if show_cell_dividers:
-            cv2.line(img, (curr_x, 0), (curr_x, height), BLUE, 3)
-
-    return x_dividers
-
-
-def get_center(img, peg_pushed, show_center=SHOW_CENTER):
-    peg_centers = []
-    for contour in peg_pushed:
-        # compute the center of the contour
-        M = cv2.moments(contour)
-        cX = int(M["m10"] / M["m00"])
-        cY = int(M["m01"] / M["m00"])
-
-        # draw the contour and center of the shape on the image
-        if show_center:
-            cv2.circle(img, (cX, cY), 3, BLACK, -1)
-
-        peg_centers.append((cX, cY))
-
-    return peg_centers
-
-
-
-def number_pegs(img, peg_centers, x_dividers):
+def number_pegs(img, peg_centers, x_dividers, show_peg_bounds):
 
     peg_color = {0: (53, 211, 81), 1: (13, 23, 143), 2: (69, 121, 215), 3: (165, 78, 248), 4: (83, 207, 204), 5: (185, 240, 217), 6: (136, 220, 14)}
 
@@ -93,7 +62,7 @@ def number_pegs(img, peg_centers, x_dividers):
 
     
     # color pegs based on color
-    if SHOW_PEG_BOUNDS:
+    if show_peg_bounds:
         length = 20
         for center in center_identifiers:
             cell = center_identifiers[center]["cell"]
@@ -111,41 +80,6 @@ def number_pegs(img, peg_centers, x_dividers):
     return dot_boundaries
 
 
-def identify_dots(img, show_peg_contours=SHOW_PEG_CONTOURS):
-    # Our operations on the frame come here
-    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    _, thresh = cv2.threshold(img_gray, 240, 255, 0) # (grayscale_image, threshold_value, maxVal, minVal)
-
-    # Get contours
-    contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-    # make sure contours exist
-    if contours is []:
-        return img
-
-    # filter/identify pegs that have been pushed up
-    peg_pushed = []
-    for i in range(0, len(contours)):
-        area = cv2.contourArea(contours[i])
-        if (area >= PEG_THRESHOLD):
-            peg_pushed.append(contours[i])
-
-    # debugging:
-    if show_peg_contours: 
-        cv2.drawContours(img, peg_pushed, -1, RED, 3)
-
-
-    # cell dividers (x-axis)
-    x_dividers = get_dividers(img)
-
-    # peg centers
-    peg_centers = get_center(img, peg_pushed)
-
-    # mark cell numbers
-    bound_identifiers = number_pegs(img, peg_centers, x_dividers)
-
-    return img, thresh, bound_identifiers
-
 
 def get_video():
 
@@ -159,23 +93,45 @@ def get_video():
         width  = int(cap.get(3)) # 1280
         height = int(cap.get(4)) # 960
 
+        ###-----------------------------------------###
+
         # only show braille cells
         cropped = frame[CROP_HEIGHT:CROP_WIDTH, 0:width] # img[y:y+h, x:x+w]
 
-        # Image to be shown
-        img, thresh, dot_boundaries = identify_dots(cropped)
+        # Get contours
+        img, thresh, pushed_contours = utils.get_contours(img=cropped, area_threshold=PEG_THRESHOLD)
+
+        # draw contours
+        cv2.drawContours(img, pushed_contours, -1, RED, 3)
+
+        # get center
+        peg_centers = utils.get_center(img=img, contours=pushed_contours)
+
+        # draw centers
+        for (cX, cY) in peg_centers:
+            cv2.circle(img, (cX, cY), 3, BLACK, -1)
+
+
+        # cell dividers (x-axis)
+        x_dividers = utils.get_dividers(img, width, height)
+
+        # draw cell dividers
+        for curr_x in x_dividers:
+            cv2.line(img, (curr_x, 0), (curr_x, height), BLUE, 3)
+
+        # mark cell numbers
+        dot_boundaries = number_pegs(img, peg_centers, x_dividers, show_peg_bounds=SHOW_PEG_BOUNDS)
+
+        ###-----------------------------------------###
 
         # Display the resulting frame
         cv2.imshow('img', img)
         cv2.imshow('thresh', thresh)
 
 
-    # Serializing json  
-    json_object = json.dumps(dot_boundaries, indent = 4) 
-      
-    # Writing to sample.json 
-    with open(parent_dir+"/json/dot_boundaries.json", "w") as outfile: 
-        outfile.write(json_object) 
+    # Save calibrated dot boundaries
+    utils.save_json(dot_boundaries, savepath=root_dir+"/json/dot_boundaries.json")
+
 
     # When everything done, release the capture
     cap.release()

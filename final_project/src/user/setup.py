@@ -1,9 +1,11 @@
-import sys
-sys.path.insert(0, '../lib/')
-
 import utils
 from params import *
 import pygame
+
+
+def cvimage_to_pygame(img):
+    """Convert cvimage into a pygame image"""
+    return pygame.image.frombuffer(img.tostring(), img.shape[:2], "RGB")
 
 
 def setup_mode():
@@ -22,13 +24,16 @@ def setup_mode():
             if keyname == "return":
                 print("return")
 
+        pygame.display.update()
+
+
 
 if __name__ == '__main__':
     #------- Welcome Speech -------#
 
     # welcome speech (instructions)
     if INTRO:
-        setup_intro = "hello"
+        setup_intro = "Generating new braille symbols..."
         utils.speak(setup_intro)
 
     #------- Pygame -------#
@@ -37,7 +42,8 @@ if __name__ == '__main__':
     pygame.init()
 
     # set window size
-    pygame.display.set_mode((200,200)) #width, height
+    pygame.display.set_caption("OpenCV camera stream on Pygame")
+    pygame.display.set_mode([1280,960]) # width, height
 
     #------- Setup Mode -------#
     setup_mode()

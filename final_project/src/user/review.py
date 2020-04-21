@@ -1,13 +1,18 @@
 import sys
-sys.path.insert(0, '../lib/')
+sys.path.insert(0, '../../lib/')
 
-import os
 import Leap
-import string
 import pygame
 import speech_recognition as sr
+
 from params import *
 import utils
+
+# get complete file name
+import os
+from pathlib import Path
+curr_dir = Path(os.getcwd())
+root_dir = str(curr_dir.parent.parent)
 
 # Global variables; Do not modify!
 audio_input = None
@@ -15,6 +20,10 @@ process_speech = False
 
 previous_cell = -1
 current_cell = None
+
+# Get current braille symbols loaded in system
+current_symbols = utils.load_json(filepath=root_dir+"/json/current_symbols.json")  
+print(current_symbols)
 
 
 def get_frame(controller):
@@ -47,7 +56,7 @@ def get_frame(controller):
                     elif current_cell==previous_cell:
 
                         if process_speech:
-                            letter = BRAILLE[current_cell]
+                            letter = str(current_symbols[current_cell])
                             print("cell: {}, letter: {}".format(current_cell, letter))
 
                             if audio_input == letter:

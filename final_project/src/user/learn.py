@@ -1,17 +1,18 @@
 import sys
-sys.path.insert(0, '../lib/')
+sys.path.insert(0, '../../lib/')
 
 import os
-import Leap
-import string
 import time
+import string
+import Leap
+
 from params import *
+import utils
 
-
-def speak(text):
-    table = string.maketrans("","")
-    cleaned_text = text.translate(table, string.punctuation) 
-    os.system("say '{}'".format(cleaned_text))
+# get complete file name
+from pathlib import Path
+curr_dir = Path(os.getcwd())
+root_dir = str(curr_dir.parent.parent)
 
 
 class IndexFinger(Leap.Listener):
@@ -28,6 +29,8 @@ class IndexFinger(Leap.Listener):
         self.current_time = None
 
         self.processed = False
+
+        self.current_symbols = utils.load_json(filepath=root_dir+"/json/current_symbols.json")  
 
 
     def on_connect(self, controller):
@@ -59,9 +62,9 @@ class IndexFinger(Leap.Listener):
                             self.current_time = time.time()
                             hold_time = self.current_time - self.previous_time
                             if hold_time > self.FINGER_HOLD_TIME:
-                                letter = BRAILLE[self.current_cell]
+                                letter = str(self.current_symbols[self.current_cell])
                                 print("cell: {}, letter: {}".format(self.current_cell, letter))
-                                speak(letter)
+                                utils.speak(letter)
                                 self.processed = False
 
                         # finger moved to new cell
@@ -101,7 +104,7 @@ if __name__ == "__main__":
     # welcome speech (instructions)
     if INTRO:
         learn_intro = "Please move your right finger over each braille cell to hear its symbol name. Keep your hand extended, and make sure the leap motion visualizer recognizes your RIGHT hand. Reset by removing your hand from view if necessary."
-        speak(learn_intro)
+        utils.speak(learn_intro)
 
     #------- Learn Mode -------#
 

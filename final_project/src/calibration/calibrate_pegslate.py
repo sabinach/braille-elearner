@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '../lib/')
+sys.path.insert(0, '../../lib/') # for Leap.py
 
 import Leap
 from Leap import *
