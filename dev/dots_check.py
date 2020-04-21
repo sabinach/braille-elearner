@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '../src/user/') # for utils.py, params.py
 
 import os
-import cv2 # Version 4.2.0np
+import cv2 # Version 4.2.0
 import utils
 from params import *
 

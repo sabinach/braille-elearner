@@ -5,6 +5,9 @@
 #### NOTE:
 Make sure your conda, python, and python3 aliases in ~/.bash_profile are commented out before you activate venv!
 
+#### To create new venv
+```virtualenv venv -p python2.7```
+
 #### To activate venv
 ```source venv/bin/activate```
 
@@ -18,7 +21,7 @@ Make sure your conda, python, and python3 aliases in ~/.bash_profile are comment
 
 #### To run script
 ```cd src/user```            
-```python generate.py```          
+```python generate_dots.py```          
 ```python learn.py```          
 ```python review.py```
 
@@ -40,7 +43,7 @@ Video: https://youtu.be/Sj2WTw3c4sc
 Slides: https://drive.google.com/open?id=1GFmHU4PHQUvV5RwFjD5UO8hYAmBete4IV2XkY2GFOoQ      
 
 #### Implementation Studio
-Video: TBD     
+Video: https://youtu.be/EX9FyhGWBtQ     
 Slides: https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM     
 
 #### Final Report
@@ -48,21 +51,7 @@ Paper: TBD
 
 ---
 
-## Manual Software Setup
-
-### Virtual Environment (venv)
-
-#### Setup virtual environment
-```virtualenv venv -p python2.7```
-
-#### Activate virtual environment
-```source venv/bin/activate```
-
-#### Deactivate virtual environment
-```deactivate``` 
-
-
-### Package Installations
+## Package Installations
 
 #### PyPi Speech Recognition
 https://pypi.org/project/SpeechRecognition/                             

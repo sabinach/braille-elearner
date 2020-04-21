@@ -1,8 +1,8 @@
 ###----- Leap Motion -----###
 
 # Parameters
-MIN_X = -104 # rightmost
-MAX_X = 63  # leftmost
+MIN_X = -106 # rightmost
+MAX_X = 64  # leftmost
 
 # Constants
 NUM_CELLS = 10

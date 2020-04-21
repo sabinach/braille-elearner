@@ -213,7 +213,7 @@ def concatenate_image(img_names, img_dir, extension='.png'):
     height, width = concatenated_img.shape[:2]
     for i in range(NUM_CELLS-1):
         curr_x += width/NUM_CELLS
-        cv2.line(concatenated_img, (curr_x, 0), (curr_x, height), RED, 3)
+        cv2.line(concatenated_img, (curr_x, 0), (curr_x, height), BLACK, 3)
 
     return concatenated_img
 
