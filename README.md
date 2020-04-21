@@ -50,54 +50,54 @@ Paper: TBD
 
 ## Manual Software Setup
 
-###Virtual Environment (venv)
+### Virtual Environment (venv)
 
-####Setup virtual environment
+#### Setup virtual environment
 ```virtualenv venv -p python2.7```
 
-####Activate virtual environment
+#### Activate virtual environment
 ```source venv/bin/activate```
 
-####Deactivate virtual environment
+#### Deactivate virtual environment
 ```deactivate``` 
 
 
-###Package Installations
+### Package Installations
 
-####PyPi Speech Recognition
+#### PyPi Speech Recognition
 https://pypi.org/project/SpeechRecognition/                             
 https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_recognition.py                         
 ```pip install SpeechRecognition```
 
-####For microphone
+#### For microphone
 ```brew install portaudio```
 ```pip install pyaudio```
 
-####Google Web Speech API
+#### Google Web Speech API
 ```pip install google-api-python-client```
 
-####Pygame
+#### Pygame
 ```pip install pygame```
 
-####Pocket Sphinx API 
+#### Pocket Sphinx API 
 ```brew install swig git python```                        
 ```pip install pocketsphinx```
 
-####For faster operations (optional)
+#### For faster operations (optional)
 ```pip install monotonic```
 
-####Text-to-speech (optional)
+#### Text-to-speech (optional)
 ```pip install pyttsx3```
 
-####OpenCV
+#### OpenCV
 ```pip install opencv-python```                          
 ```pip install opencv-contrib-python```                   
 ```pip install opencv-python-headless```
 
-####Numpy
+#### Numpy
 ```pip install numpy``` 
 
-####Pathlib
+#### Pathlib
 ```pip install pathlib```
 
 
