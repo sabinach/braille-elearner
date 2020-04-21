@@ -12,12 +12,12 @@ Make sure your conda, python, and python3 aliases in ~/.bash_profile are comment
 ```deactivate```
 
 #### Global calibration
-```cd final_project/calibration```           
+```cd src/calibration```           
 ```python calibrate_pegslate.py``` (leap: minX, maxX)                
 ```python calibrate_dots.py``` (camera: calibrate cell/dot boundaries) 
 
 #### To run script
-```cd final_project/user```            
+```cd src/user```            
 ```python setup.py```          
 ```python learn.py```          
 ```python review.py```
