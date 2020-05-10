@@ -5,28 +5,26 @@
 #### NOTE:
 Make sure your conda, python, and python3 aliases in ~/.bash_profile are commented out before you activate venv!
 
-#### To create new venv
-```virtualenv venv -p python2.7```
-
 #### To activate venv
 ```source venv/bin/activate```
 
-#### To deactivate venv
-```deactivate```
+#### To run script
+```cd src```            
+```python main.py```  
 
 #### Global calibration
 ```cd src/calibration```           
 ```python calibrate_leap.py``` (finger minX, maxX)                
 ```python calibrate_camera.py``` (save cell/dot boundaries) 
 
-#### To run script
-```cd src/user```            
+#### Mode Scripts
+```cd src/user```     
 ```python generate_dots.py```          
 ```python learn.py```          
 ```python review.py```
 
 #### Parameters and Helper functions
-```cd src/user```            
+```cd src```                
 ```vim params.py```                  
 ```vim utils.py```
 
@@ -51,6 +49,19 @@ Paper: TBD
 
 ---
 
+## Venv Activation
+
+#### To create new venv
+```virtualenv venv -p python2.7```
+
+#### To activate venv
+```source venv/bin/activate```
+
+#### To deactivate venv
+```deactivate```
+
+---
+
 ## Package Installations
 
 #### PyPi Speech Recognition
@@ -59,7 +70,7 @@ https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_reco
 ```pip install SpeechRecognition```
 
 #### For microphone
-```brew install portaudio```
+```brew install portaudio```                
 ```pip install pyaudio```
 
 #### Google Web Speech API

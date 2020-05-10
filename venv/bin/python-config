@@ -1,4 +1,4 @@
-#!/Users/sabinach/Downloads/braille-elearner/venv/bin/python
+#!/Users/sabinach/Desktop/MIT/2020_Spring/6835-multimodal/braille-elearner/venv/bin/python
 
 import sys
 import getopt

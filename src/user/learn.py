@@ -3,7 +3,6 @@ sys.path.insert(0, '../../lib/')
 
 import os
 import time
-import string
 import Leap
 
 from params import *
