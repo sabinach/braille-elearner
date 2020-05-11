@@ -22,11 +22,22 @@ previous_cell = -1
 current_cell = None
 
 # Get current braille symbols loaded in system
-current_symbols = utils.load_json(filepath=root_dir+"/json/current_symbols.json")  
+current_symbols = utils.load_json(filepath=root_dir+"/json/current_symbols.json") 
+
+# get min/max x bounds
+MIN_X, MAX_X, NUM_CELLS, CELL_LENGTH = utils.get_leap_boundaries(filepath=root_dir+"/json/leap_boundaries.json")
+
+# test connection (because not using listener)
+connected = True
 
 
 def get_frame(controller):
-    global audio_input, process_speech, previous_cell, current_cell
+    global audio_input, process_speech, previous_cell, current_cell, connected
+
+    # notify user when connected for the first time
+    if connected:
+        print("Connected.")
+        connected = False
 
     #print("Frame available")
     frame = controller.frame()
@@ -94,7 +105,13 @@ def listen(api):
             process_speech = True
 
 
-def review_mode(controller):
+def review_mode(pygame, key_enter, key_back, key_exit):
+
+    # Controller
+    controller = Leap.Controller()
+    controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD)  # Head-mounted tracking
+    print("Connecting to Leap..")
+
     # wait for "return" keypress -> listen to audio
     while True:
         # leap motion frames
@@ -110,8 +127,18 @@ def review_mode(controller):
         # captures the 'KEYDOWN' events
         if event.type == pygame.KEYDOWN:
             keyname = pygame.key.name(event.key)
-            if keyname == "return":
+
+            # keypress to guess
+            if keyname == key_enter:
                 parsed_audio = listen(api=API)
+
+            # keypress to go back to menu
+            if keyname == key_back:
+                break
+
+            # keypress to go back to menu
+            if keyname == key_exit:
+                break
 
     
 if __name__ == '__main__':
@@ -126,16 +153,16 @@ if __name__ == '__main__':
     #------- Pygame -------#
 
     # initialize pygame display
-    pygame.init()
+    #pygame.init()
 
     # set window size
-    pygame.display.set_mode((200,200)) #width, height
+    #pygame.display.set_mode((200,200)) #width, height
 
     #------- Leap Motion -------#
 
     # Controller
-    controller = Leap.Controller()
-    controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD)  # Head-mounted tracking
+    #controller = Leap.Controller()
+    #controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD)  # Head-mounted tracking
     #controller.set_policy(Leap.Controller.POLICY_IMAGES)       # Receive images
 
     #------- Review Mode -------#
@@ -143,5 +170,5 @@ if __name__ == '__main__':
     review_mode(controller)
 
     # close pygame
-    pygame.quit()
+    #pygame.quit()
 

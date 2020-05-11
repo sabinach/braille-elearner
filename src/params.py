@@ -1,11 +1,11 @@
 ###----- Leap Motion -----###
 
-MIN_X = -109 # rightmost
-MAX_X = 60 # leftmost
+#MIN_X = -106 # rightmost
+#MAX_X = 58 # leftmost
 
 # Constants
-NUM_CELLS = 10
-CELL_LENGTH = (MAX_X-MIN_X)/(NUM_CELLS)
+#NUM_CELLS = 10
+#CELL_LENGTH = (MAX_X-MIN_X)/(NUM_CELLS)
 
 # Leap Motion
 HAND_CONFIDENCE_THRESH = 0.3	# decimal probability
@@ -50,4 +50,11 @@ MOVE_NEXT = "right"
 #SCROLL_UP = "up"
 #SCROLL_DOWN = "down"
 EXIT = "escape"
+
+###----- GUI -----###
+
+# Bundle identifiers: osascript -e 'id of app "Name of App"'
+#ITERM_ID = "com.googlecode.iterm2"
+#SUBLIME_ID = "com.sublimetext.3"
+#PYGAME_ID = "TBD"
 

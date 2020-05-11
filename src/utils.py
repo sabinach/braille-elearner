@@ -7,6 +7,47 @@ import numpy as np
 import speech_recognition as sr
 from params import *
 
+# Set active window
+from Carbon import AppleEvents 
+from Carbon import AE
+from pynput.keyboard import Key, Controller
+import psutil
+
+# get complete file name
+import os
+from pathlib import Path
+curr_dir = Path(os.getcwd())
+root_dir = str(curr_dir.parent)
+
+###----------- JSON -----------###
+
+
+def load_json(filepath):
+    with open(filepath) as json_file:
+        item = json.load(json_file)
+    return item
+
+
+def save_json(item, savepath):
+    # Serializing json  
+    json_object = json.dumps(item, indent = 4) 
+      
+    # Writing to sample.json 
+    with open(savepath, "w") as outfile: 
+        outfile.write(json_object) 
+
+
+###----------- Leap boundaries -----------###
+
+
+def get_leap_boundaries(filepath):
+    leap_boundaries = load_json(filepath)
+    MIN_X = leap_boundaries[0]["MIN_X"]
+    MAX_X = leap_boundaries[0]["MAX_X"]
+    NUM_CELLS = leap_boundaries[0]["NUM_CELLS"]
+    CELL_LENGTH = leap_boundaries[0]["CELL_LENGTH"]
+    return MIN_X, MAX_X, NUM_CELLS, CELL_LENGTH
+
 
 ###----------- Audio -----------###
 
@@ -41,25 +82,11 @@ def google_api(recognizer, audio):
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
     return parsed_audio
 
-###----------- JSON -----------###
-
-
-def load_json(filepath):
-    with open(filepath) as json_file:
-        item = json.load(json_file)
-    return item
-
-
-def save_json(item, savepath):
-    # Serializing json  
-    json_object = json.dumps(item, indent = 4) 
-      
-    # Writing to sample.json 
-    with open(savepath, "w") as outfile: 
-        outfile.write(json_object) 
-
 
 ###----------- Symbols -----------###
+
+# get min/max x bounds
+MIN_X, MAX_X, NUM_CELLS, CELL_LENGTH = get_leap_boundaries(filepath=root_dir+"/json/leap_boundaries.json")
 
 
 def generate_symbols(braille_symbols, repeat=False):
@@ -216,5 +243,35 @@ def concatenate_image(img_names, img_dir, extension='.png'):
         cv2.line(concatenated_img, (curr_x, 0), (curr_x, height), BLACK, 3)
 
     return concatenated_img
+
+
+###----------- GUI -----------###
+
+# deprecated -- no longer needed
+def is_visualizer_active():
+    for p in psutil.process_iter():
+        if p.name() == 'Visualizer':
+            return True
+    return False
+
+# deprecated -- no longer needed
+def focus_window(bundle_identifier):
+    target = AE.AECreateDesc(AppleEvents.typeApplicationBundleID, bundle_identifier)
+    activateEvent  = AE.AECreateAppleEvent( 'misc', 'actv', target, AppleEvents.kAutoGenerateReturnID, AppleEvents.kAnyTransactionID)
+    activateEvent.AESend(AppleEvents.kAEWaitReply, AppleEvents.kAENormalPriority, AppleEvents.kAEDefaultTimeout)
+
+
+# deprecated -- no longer needed
+def focus_pygame(keyboard):
+    # Press and release space
+    keyboard.press(Key.cmd)
+    keyboard.press(Key.tab)
+
+    if is_visualizer_active():
+        keyboard.press(Key.tab)
+        keyboard.release(Key.tab)
+
+    keyboard.release(Key.tab)
+    keyboard.release(Key.cmd)
 
 

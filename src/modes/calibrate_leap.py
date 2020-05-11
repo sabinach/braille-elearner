@@ -4,6 +4,15 @@ sys.path.insert(0, '../lib/') # for Leap.py
 import Leap
 from Leap import *
 
+import utils
+
+# get complete file name
+import os
+from pathlib import Path
+curr_dir = Path(os.getcwd())
+root_dir = str(curr_dir.parent)
+
+x = None
 
 class Pointer(Leap.Listener):
 
@@ -11,9 +20,11 @@ class Pointer(Leap.Listener):
         self.TRANSLATION_PROBABILITY_THRESHOLD = 0.5
 
     def on_connect(self, controller):
-        print("Connected")
+        print("Connected.")
 
     def on_frame(self, controller):
+        global x
+
         #print("Frame available")
         frame = controller.frame()
         right_hand = list(filter(lambda hand: hand.is_right, frame.hands))
@@ -33,12 +44,15 @@ class Pointer(Leap.Listener):
                     x = index_finger.stabilized_tip_position.x
                     print(x)
 
-def main():
+
+def track_leap(pygame, key_left, key_right, key_enter, key_back, key_shutdown):
+    global x
 
     # Controller
     controller = Leap.Controller()
     controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD)  # Head-mounted tracking
     #controller.set_policy(Leap.Controller.POLICY_IMAGES)       # Receive images
+    print("Connecting to Leap..")
 
     # Listener
     pointer = Pointer()
@@ -46,20 +60,56 @@ def main():
     # Have listeners receive events from the controller
     controller.add_listener(pointer)
 
-    # Keep this process running until Enter is pressed
-    #print("Press LEFT and RIGHT arrows to save leap calibration...")
-    print("Press CTRL-C (terminal focus) to quit...")
-    try:
-        sys.stdin.readline()
-    except KeyboardInterrupt:
-        pass
-    finally:
-        controller.remove_listener(pointer)
+    # Get boundary info
+    leap_boundaries = utils.load_json(filepath=root_dir+"/json/leap_boundaries.json")
 
-    # Save leap boundaries
-    #self.LEAP_BOUNDARIES = utils.load_json(filepath=root_dir+"/json/leap_boundaries.json")
-    #utils.save_json(leap_boundaries, filepath=root_dir+"/json/leap_boundaries.json")
+    # Keep this process running until exit is pressed
+    while True:
+        
+        event = pygame.event.wait()
+
+        # if the 'close' button of the window is pressed
+        if event.type == pygame.QUIT: 
+            break
+
+        # captures the 'KEYDOWN' events
+        if event.type == pygame.KEYDOWN:
+            keyname = pygame.key.name(event.key)
+
+            # set leftmost boundary (MAX_X)
+            if keyname == key_left:
+                leap_boundaries[0]["MAX_X"] = x
+                print(leap_boundaries)
+                utils.speak("left boundary selected")
+
+            # set rightmost boundary (MIN_X)
+            if keyname == key_right:
+                leap_boundaries[0]["MIN_X"] = x
+                print(leap_boundaries)
+                utils.speak("right boundary selected")
+
+            # save boundaries into json
+            if keyname == key_enter:
+                min_x = leap_boundaries[0]["MIN_X"]
+                max_x = leap_boundaries[0]["MAX_X"]
+                num_cells = leap_boundaries[0]["NUM_CELLS"]
+                leap_boundaries[0]["CELL_LENGTH"] = (max_x-min_x)/num_cells
+                utils.save_json(leap_boundaries, savepath=root_dir+"/json/leap_boundaries.json")
+
+                print(leap_boundaries)
+                utils.speak("saved leap calibration")
+
+            # keypress to go back to menu
+            if keyname == key_back:
+                break
+
+            # keypress to go back to menu
+            if keyname == key_shutdown:
+                break
+
+
+    controller.remove_listener(pointer)
 
 
 if __name__ == "__main__":
-    main()
+    track_leap()

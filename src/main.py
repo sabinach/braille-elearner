@@ -1,9 +1,13 @@
 import sys
 sys.path.insert(0, 'modes/')
 
+# libraries
 import pygame
 import utils
 from params import *
+
+# set active keyboard
+from pynput.keyboard import Key, Controller
 
 # Modes
 import calibrate_camera
@@ -19,9 +23,14 @@ VOLUME = 3
 SPEED = 4
 VERBOSITY = 5
 
+# verbalize instructions every time
+VERBOSE = False
+
+# states and sub_states
 main_list = ["user modes", "settings"]
 user_list = ["learn mode", "review mode"]
 settings_list = ["calibrate leap", "calibrate camera", "volume", "speed", "verbosity"]
+verbose_list = ["True", "False"]
 
 
 def main_menu():
@@ -38,7 +47,12 @@ def main_menu():
     # initial startup
     utils.speak("main menu")
 
+    # initial prompt
+    print("Press ESC to exit Braille E-Learner.")
+
+
     while True:
+
         # gets a single event from the event queue
         event = pygame.event.wait()
 
@@ -85,7 +99,13 @@ def main_menu():
                     state = sub_state + 1
                     sub_state = 0
                     utils.speak("selected")
-                    new_state = True   
+                    new_state = True  
+
+                elif keyname == BACK:
+                    state = MAIN
+                    sub_state = main_list.index(main_list[sub_state])
+                    utils.speak("back to main menu")
+                    new_state = True 
                     
 
             elif state == USER:
@@ -104,13 +124,36 @@ def main_menu():
                 elif keyname == ENTER:
                     mode = user_list[sub_state].split()[0]
                     sub_state = 0
-                    if mode == "learn":
-                        print("learn")
-                        pass
-                    elif mode == "review":
-                        print("review")
-                        pass
                     utils.speak("selected")
+
+                    # LEARN MODE
+                    if mode == "learn":
+                        print("Starting learn mode.. Press DELETE to exit.")
+                        utils.speak("Starting learn mode.")
+                        utils.speak("Move your finger over the braille cells to hear the symbol name.")
+                        learn.learn_mode(pygame, key_back=BACK, key_exit=EXIT)
+                        utils.speak("exiting learn mode")
+
+                        # go back to settings
+                        state = USER
+                        sub_state = user_list.index("learn mode")
+                        utils.speak("back to user modes")
+                        new_state = True
+
+
+                    elif mode == "review":
+                        print("Starting review mode.. Press SPACE to guess, and DELETE to exit.")
+                        utils.speak("Starting review mode.")
+                        utils.speak("Move your finger over the braille cells. Press SPACE to verbalize your guess.")
+                        review.review_mode(pygame, key_enter=ENTER, key_back=BACK, key_exit=EXIT)
+                        utils.speak("exiting review mode")
+
+                        # go back to settings
+                        state = USER
+                        sub_state = user_list.index("review mode")
+                        utils.speak("back to user modes")
+                        new_state = True
+                    
 
                 elif keyname == BACK:
                     state = MAIN
@@ -143,20 +186,20 @@ def main_menu():
 
                         # CALIBRATE LEAP
                         if mode == "leap":
-                            print("Calibrating leap..")
+                            print("Calibrating leap.. Press LEFT/RIGHT to set boundaries, SPACE to save, DELETE to exit.")
                             utils.speak("Calibrating leap")
-                            calibrate_leap.main()
-                            utils.speak("Leap calibrated")
+                            utils.speak("Press the LEFT and RIGHT arrows to set boundaries. Press SPACE to save calibration")
+                            calibrate_leap.track_leap(pygame, key_left=MOVE_BACK, key_right=MOVE_NEXT, key_enter=ENTER, key_back=BACK, key_shutdown=EXIT)
 
                             # go back to settings
                             state = SETTINGS
-                            sub_state = settings_list.index("calibrate camera")
+                            sub_state = settings_list.index("calibrate leap")
                             utils.speak("back to settings")
                             new_state = True
 
                         # CALIBRATE CAMERA
                         elif mode == "camera":
-                            print("Calibrating camera..")
+                            print("Calibrating camera.. Press SPACE to save, and DELETE to exit.")
                             utils.speak("Calibrating camera")
                             utils.speak("Press SPACE to save calibration")
                             calibrate_camera.get_video()
@@ -247,10 +290,11 @@ if __name__ == '__main__':
     # set window size
     pygame.display.set_mode((200,200)) #width, height
 
+    # keyboard
+    keyboard = Controller()
 
     # main menu
     main_menu()
-
 
     # close pygame
     pygame.quit()

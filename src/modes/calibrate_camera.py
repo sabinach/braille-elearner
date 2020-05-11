@@ -14,6 +14,9 @@ from pathlib import Path
 curr_dir = Path(os.getcwd())
 root_dir = str(curr_dir.parent)
 
+# get min/max x bounds
+MIN_X, MAX_X, NUM_CELLS, CELL_LENGTH = utils.get_leap_boundaries(filepath=root_dir+"/json/leap_boundaries.json")
+
 
 def number_pegs(img, peg_centers, x_dividers):
 

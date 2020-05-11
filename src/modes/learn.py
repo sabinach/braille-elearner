@@ -4,6 +4,7 @@ sys.path.insert(0, '../lib/')
 import os
 import time
 import Leap
+import keyboard
 
 from params import *
 import utils
@@ -11,7 +12,10 @@ import utils
 # get complete file name
 from pathlib import Path
 curr_dir = Path(os.getcwd())
-root_dir = str(curr_dir.parent.parent)
+root_dir = str(curr_dir.parent)
+
+# get min/max x bounds
+MIN_X, MAX_X, NUM_CELLS, CELL_LENGTH = utils.get_leap_boundaries(filepath=root_dir+"/json/leap_boundaries.json")
 
 
 class IndexFinger(Leap.Listener):
@@ -33,7 +37,7 @@ class IndexFinger(Leap.Listener):
 
 
     def on_connect(self, controller):
-        print("Connected")
+        print("Connected.")
 
 
     def on_frame(self, controller):
@@ -73,12 +77,13 @@ class IndexFinger(Leap.Listener):
                             self.processed = True
 
 
-def learn_mode():
+def learn_mode(pygame, key_back, key_exit):
 
     # Controller
     controller = Leap.Controller()
     controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD)  # Head-mounted tracking
     #controller.set_policy(Leap.Controller.POLICY_IMAGES)       # Receive images
+    print("Connecting to Leap..")
 
     # Listener
     indexFinger = IndexFinger()
@@ -86,14 +91,28 @@ def learn_mode():
     # Have listeners receive events from the controller
     controller.add_listener(indexFinger)
 
-    # Keep this process running until Enter is pressed
-    print("Press CTRL-C (terminal focus) to quit...")
-    try:
-        sys.stdin.readline()
-    except KeyboardInterrupt:
-        pass
-    finally:
-        controller.remove_listener(indexFinger)
+    # Keep this process running until exit is pressed
+    while True:
+        
+        event = pygame.event.wait()
+
+        # if the 'close' button of the window is pressed
+        if event.type == pygame.QUIT: 
+            break
+
+        # captures the 'KEYDOWN' events
+        if event.type == pygame.KEYDOWN:
+            keyname = pygame.key.name(event.key)
+
+            # keypress to go back to menu
+            if keyname == key_back:
+                break
+
+            # keypress to go back to menu
+            if keyname == key_exit:
+                break
+
+    controller.remove_listener(indexFinger)
 
 
 if __name__ == "__main__":
