@@ -1,8 +1,7 @@
 ###----- Leap Motion -----###
 
-# Parameters
-MIN_X = -106 # rightmost
-MAX_X = 64  # leftmost
+MIN_X = -109 # rightmost
+MAX_X = 60 # leftmost
 
 # Constants
 NUM_CELLS = 10
@@ -23,7 +22,7 @@ API="google"					# google/sphinx
 ###----- Camera -----###
 
 # Camera
-VIDEO_PORT = 1
+VIDEO_PORT = 0
 
 # Peg pushed threshold
 PEG_THRESHOLD = 200
@@ -48,6 +47,7 @@ ENTER = "space"
 BACK = "backspace"
 MOVE_BACK = "left"
 MOVE_NEXT = "right"
-SCROLL_UP = "up"
-SCROLL_DOWN = "down"
+#SCROLL_UP = "up"
+#SCROLL_DOWN = "down"
+EXIT = "escape"
 

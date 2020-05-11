@@ -1,6 +1,15 @@
+import sys
+sys.path.insert(0, 'modes/')
+
 import pygame
 import utils
 from params import *
+
+# Modes
+import calibrate_camera
+import calibrate_leap
+import learn
+import review
 
 # States
 MAIN = 0
@@ -8,11 +17,11 @@ USER = 1
 SETTINGS = 2
 VOLUME = 3
 SPEED = 4
-
+VERBOSITY = 5
 
 main_list = ["user modes", "settings"]
 user_list = ["learn mode", "review mode"]
-settings_list = ["calibrate leap", "calibrate camera", "volume", "speed"]
+settings_list = ["calibrate leap", "calibrate camera", "volume", "speed", "verbosity"]
 
 
 def main_menu():
@@ -26,6 +35,7 @@ def main_menu():
     # flag to signify state change
     new_state = True
 
+    # initial startup
     utils.speak("main menu")
 
     while True:
@@ -53,6 +63,9 @@ def main_menu():
         # captures the 'KEYDOWN' events
         if event.type == pygame.KEYDOWN:
             keyname = pygame.key.name(event.key)
+            if keyname == EXIT:
+                utils.speak("Goodbye")
+                break
             
             if state == MAIN:
 
@@ -126,13 +139,34 @@ def main_menu():
                     # calibration
                     if len(selected) > 1:
                         mode = selected[1]
-                        if mode == "leap":
-                            print("leap")
-                            pass
-                        elif mode == "camera":
-                            print("camera")
-                            pass
                         utils.speak("selected")
+
+                        # CALIBRATE LEAP
+                        if mode == "leap":
+                            print("Calibrating leap..")
+                            utils.speak("Calibrating leap")
+                            calibrate_leap.main()
+                            utils.speak("Leap calibrated")
+
+                            # go back to settings
+                            state = SETTINGS
+                            sub_state = settings_list.index("calibrate camera")
+                            utils.speak("back to settings")
+                            new_state = True
+
+                        # CALIBRATE CAMERA
+                        elif mode == "camera":
+                            print("Calibrating camera..")
+                            utils.speak("Calibrating camera")
+                            utils.speak("Press SPACE to save calibration")
+                            calibrate_camera.get_video()
+                            utils.speak("Camera calibration saved")
+
+                            # go back to settings
+                            state = SETTINGS
+                            sub_state = settings_list.index("calibrate camera")
+                            utils.speak("back to settings")
+                            new_state = True
 
                     elif len(selected) == 1:
                         mode = selected[0]
@@ -177,6 +211,21 @@ def main_menu():
                 elif keyname == BACK:
                     state = SETTINGS
                     sub_state = settings_list.index("speed")
+                    utils.speak("back to settings")
+                    new_state = True
+
+            elif state == VERBOSITY:
+                if keyname == MOVE_BACK:
+                    pass
+                elif keyname == MOVE_NEXT:
+                    pass
+                elif keyname == ENTER:
+                    state = None
+                    sub_state = None
+
+                elif keyname == BACK:
+                    state = SETTINGS
+                    sub_state = settings_list.index("verbosity")
                     utils.speak("back to settings")
                     new_state = True
 

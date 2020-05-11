@@ -1,5 +1,5 @@
-import sys
-sys.path.insert(0, '../user') # for utils.py, params.py
+#import sys
+#sys.path.insert(0, '..') # for utils.py, params.py
 
 import cv2          # Version 4.2.0
 import json
@@ -12,7 +12,7 @@ from params import *
 import os
 from pathlib import Path
 curr_dir = Path(os.getcwd())
-root_dir = str(curr_dir.parent.parent)
+root_dir = str(curr_dir.parent)
 
 
 def number_pegs(img, peg_centers, x_dividers):
@@ -31,7 +31,6 @@ def number_pegs(img, peg_centers, x_dividers):
                     cell_nums[cell] = [(cX, cY)]
                 else:
                     cell_nums[cell].append((cX, cY))
-
 
                 # identify centers
                 center_identifiers[(cX, cY)] = {"cell": i-1}
@@ -63,14 +62,14 @@ def number_pegs(img, peg_centers, x_dividers):
 
 def get_video():
 
-    print("Press ESC to save dot calibration")
+    print("Press SPACE (image focus) to save dot calibration")
 
     cap = cv2.VideoCapture(VIDEO_PORT)
     
     width  = int(cap.get(3)) # 1280
     height = int(cap.get(4)) # 960
 
-    while cv2.waitKey(200) & 0xFF != 27:
+    while cv2.waitKey(200) & (0xFF != 27) & (0xFF != 32): # ESC:27, SPACE:32 (ASCII-DEC)
         # Capture frame-by-frame
         ret, frame = cap.read()
 
@@ -133,6 +132,9 @@ def get_video():
     # Save calibrated dot and cell boundaries
     utils.save_json(dot_boundaries, savepath=root_dir+"/json/dot_boundaries.json")
     utils.save_json(cell_boundaries, savepath=root_dir+"/json/cell_boundaries.json")
+
+    # debugging
+    print("Saved dot calibration")
 
     # When everything done, release the capture
     cap.release()

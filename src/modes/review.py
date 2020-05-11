@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '../../lib/')
+sys.path.insert(0, '../lib/')
 
 import Leap
 import pygame
@@ -12,7 +12,7 @@ import utils
 import os
 from pathlib import Path
 curr_dir = Path(os.getcwd())
-root_dir = str(curr_dir.parent.parent)
+root_dir = str(curr_dir.parent)
 
 # Global variables; Do not modify!
 audio_input = None

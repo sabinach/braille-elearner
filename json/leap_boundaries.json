@@ -1,0 +1,8 @@
+[
+    {
+        "MIN_X": -109, 
+        "MAX_X": 60,
+        "NUM_CELLS": 10,
+        "CELL_LENGTH": 16.9
+    }
+]

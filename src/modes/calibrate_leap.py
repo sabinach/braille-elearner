@@ -1,8 +1,9 @@
 import sys
-sys.path.insert(0, '../../lib/') # for Leap.py
+sys.path.insert(0, '../lib/') # for Leap.py
 
 import Leap
 from Leap import *
+
 
 class Pointer(Leap.Listener):
 
@@ -11,7 +12,6 @@ class Pointer(Leap.Listener):
 
     def on_connect(self, controller):
         print("Connected")
-
 
     def on_frame(self, controller):
         #print("Frame available")
@@ -47,13 +47,18 @@ def main():
     controller.add_listener(pointer)
 
     # Keep this process running until Enter is pressed
-    print("Press Enter to quit...")
+    #print("Press LEFT and RIGHT arrows to save leap calibration...")
+    print("Press CTRL-C (terminal focus) to quit...")
     try:
         sys.stdin.readline()
     except KeyboardInterrupt:
         pass
     finally:
         controller.remove_listener(pointer)
+
+    # Save leap boundaries
+    #self.LEAP_BOUNDARIES = utils.load_json(filepath=root_dir+"/json/leap_boundaries.json")
+    #utils.save_json(leap_boundaries, filepath=root_dir+"/json/leap_boundaries.json")
 
 
 if __name__ == "__main__":

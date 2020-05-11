@@ -49,7 +49,7 @@ Paper: TBD
 
 ---
 
-## Venv Activation
+## Venv Set-up
 
 #### To create new venv
 ```virtualenv venv -p python2.7```
@@ -64,10 +64,10 @@ Paper: TBD
 
 ## Package Installations
 
-#### PyPi Speech Recognition
+#### PyPi Speech Recognition                   
+```pip install SpeechRecognition```                       
 https://pypi.org/project/SpeechRecognition/                             
-https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_recognition.py                         
-```pip install SpeechRecognition```
+https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_recognition.py      
 
 #### For microphone
 ```brew install portaudio```                

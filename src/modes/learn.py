@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '../../lib/')
+sys.path.insert(0, '../lib/')
 
 import os
 import time
@@ -87,7 +87,7 @@ def learn_mode():
     controller.add_listener(indexFinger)
 
     # Keep this process running until Enter is pressed
-    print("Press Enter to quit...")
+    print("Press CTRL-C (terminal focus) to quit...")
     try:
         sys.stdin.readline()
     except KeyboardInterrupt:
