@@ -1,4 +1,5 @@
-# Main file (This was written EXTREMELY hastily and messily.. will clean up code in the future..)
+# Main file 
+# NOTE: This file was slapped together EXTREMELY hastily and messily.. will clean it up in the future.
 
 import sys
 sys.path.insert(0, 'modes/')

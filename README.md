@@ -74,15 +74,12 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 - [Logitech C270 Webcam](https://www.amazon.com/gp/product/B004FHO5Y6)
 - [Leap Motion Controller](https://www.ultraleap.com/product/leap-motion-controller/) (Leap Motion SDK - Mac 2.3.1)
 
-## Set Up Virtual Environment
-
-1. Create new venv:	
+## Software
 - ```virtualenv venv -p python2.7```
-2. Activate venv:	
 - ```source venv/bin/activate```
-3. Install package requirements (specified below)
+- Install package requirements (specified below)
 
-## Software Package Requirements
+## Package Requirements
 
 #### PyPi Speech Recognition                   
 - ```pip install SpeechRecognition```                       
@@ -134,6 +131,12 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 ## System Architecture
 
 ![System Architecture](https://github.com/sabinach/braille-elearner/blob/master/img/system_architecture.png)
+
+---
+
+## Example Usage
+
+![Example Usage](https://github.com/sabinach/braille-elearner/blob/master/img/example_usage.png)
 
 ---
 

@@ -1,6 +1,3 @@
-#import sys
-#sys.path.insert(0, '..') # for utils.py, params.py
-
 import cv2          # Version 4.2.0
 import json
 import numpy as np

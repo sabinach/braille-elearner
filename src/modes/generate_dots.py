@@ -1,8 +1,5 @@
 # coding: utf-8
 
-#import sys
-#sys.path.insert(0, '..') # REVERT
-
 import cv2
 import time
 import utils
@@ -187,7 +184,6 @@ def setup_mode():
     cv2.waitKey(1)
 
     return all_match
-
 
 
 if __name__ == '__main__':
