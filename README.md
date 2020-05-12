@@ -100,10 +100,10 @@ https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_reco
 #### Pathlib
 ```pip install pathlib```
 
-#### pynput
+#### pynput (optional)
 ```pip install pynput```
 
-#### psutil
+#### psutil (optional)
 ```pip install psutil```
 
 
