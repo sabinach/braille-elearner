@@ -144,9 +144,3 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 
 ![Hardware Setup](https://github.com/sabinach/braille-elearner/blob/master/img/hardware_setup.png)
 
----
-
-## Keyboard Setup
-
-![Keyboard Setup](https://github.com/sabinach/braille-elearner/blob/master/img/keyboard_setup.png)
-
