@@ -122,9 +122,9 @@ def setup_mode():
                         current_cell = NUM_CELLS - 1
 
                     if cell_matches[current_cell]:
-                        utils.speak("Cell {}: Matched".format())
+                        utils.speak("Cell {}: Matched".format(current_cell))
                     else:
-                        utils.speak("Cell {}: NOT matched".format())
+                        utils.speak("Cell {}: NOT matched".format(current_cell))
 
                 # right
                 elif key == 3:
@@ -133,9 +133,9 @@ def setup_mode():
                         current_cell = 0
 
                     if cell_matches[current_cell]:
-                        utils.speak("Cell {}: Ready".format(current_cell))
+                        utils.speak("Cell {}: Matched".format(current_cell))
                     else:
-                        utils.speak("Cell {}: NOT Ready".format(current_cell))
+                        utils.speak("Cell {}: NOT matched".format(current_cell))
 
                 # space
                 elif key == 32:
@@ -149,10 +149,11 @@ def setup_mode():
                 # set-up done -- start user mode!
                 if all_match:
                     print("Set Up DONE")
+                    break
 
                 # reset key to prevent duplicate
                 key = None
-                
+
             
             # left
             if key == 2:

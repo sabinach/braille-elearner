@@ -17,19 +17,19 @@ Slides: https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs
 #### Final Submission
 Video: TBD                           
 Slides: https://drive.google.com/open?id=1IzqvfLHKXQMqJVRoK4RHkVPUROoBIYn_3QGYzvxRu4Q                         
-Report: https://drive.google.com/open?id=1IALhN5d4B-JnODCCNb1j1C23TWInbQ1WDDUx7BBCy9Y
+Report: https://drive.google.com/open?id=1IALhN5d4B-JnODCCNb1j1C23TWInbQ1WDDUx7BBCy9Y                      
 Github: https://github.com/sabinach/braille-elearner
 
 -----------------------------
 
-### Ready-to-run (all dependencies installed, hardware set-up, etc.)
+### Ready-to-Run (all dependencies installed, hardware set-up, etc.)
 
 #### To activate venv
-```source venv/bin/activate```
+- ```source venv/bin/activate```
 
 #### To run script
-```cd src```            
-```python2.7 main.py```  
+- ```cd src```            
+- ```python2.7 main.py```  
 
 #### PERSONAL NOTE (everyone else can ignore):
 - Make sure your conda, python, and python3 aliases in ~/.bash_profile are commented out before you activate venv!

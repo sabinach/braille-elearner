@@ -137,7 +137,6 @@ def review_mode(pygame, key_enter, key_back, key_exit):
 
     # wait for "return" keypress -> listen to audio
     while True:
-        print("hello")
         # leap motion frames
         get_frame(controller)
 
