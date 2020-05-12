@@ -5,8 +5,9 @@ import Leap
 import pygame
 import speech_recognition as sr
 
-from params import *
 import utils
+from params import *
+import time
 
 # get complete file name
 import os
@@ -30,9 +31,12 @@ MIN_X, MAX_X, NUM_CELLS, CELL_LENGTH = utils.get_leap_boundaries(filepath=root_d
 # test connection (because not using listener)
 connected = True
 
+# counter for detecting warped hands
+counter = 0
+
 
 def get_frame(controller):
-    global audio_input, process_speech, previous_cell, current_cell, connected
+    global audio_input, process_speech, previous_cell, current_cell, connected, counter
 
     # notify user when connected for the first time
     if connected:
@@ -43,12 +47,18 @@ def get_frame(controller):
     frame = controller.frame()
     right_hand = list(filter(lambda hand: hand.is_right, frame.hands))
 
-    # get right hand
-    if right_hand:
-        right_hand = right_hand[0]
+    if frame:
 
-        # check: facing downwards, hand confidence, translation prob
-        if (right_hand.palm_normal[1]>0) and (right_hand.confidence>HAND_CONFIDENCE_THRESH) and (right_hand.translation_probability>TRANSLATION_PROB_THRESH):
+        if counter > WARPED_COUNT:
+            utils.speak("Please reset your hands, and make sure your right hand is facing downwards.")
+            counter = 0
+
+        # get right hand
+        if right_hand:
+            right_hand = right_hand[0]
+
+            # check: facing downwards, hand confidence, translation prob
+            if (right_hand.palm_normal[1]>0) and (right_hand.confidence>HAND_CONFIDENCE_THRESH) and (right_hand.translation_probability>TRANSLATION_PROB_THRESH):
 
                 # 1: index finger, 0: only one index finger on right hand
                 index_finger = right_hand.fingers.finger_type(1)[0] 
@@ -61,6 +71,8 @@ def get_frame(controller):
                     # finger moved to new cell
                     if current_cell != previous_cell:
                         previous_cell = current_cell
+                        utils.speak("Ready")
+                        counter = 0
 
                     # don't process passing movements
                     elif current_cell==previous_cell:
@@ -68,6 +80,10 @@ def get_frame(controller):
                         if process_speech:
                             letter = str(current_symbols[current_cell])
                             print("cell: {}, letter: {}".format(current_cell, letter))
+
+                            # convert back to alphabet ie. "why" -> "y"
+                            if audio_input in MISHEARD_LETTERS:
+                                audio_input = MISHEARD_LETTERS[audio_input]
 
                             if audio_input == letter:
                                 print("Correct!")
@@ -81,6 +97,13 @@ def get_frame(controller):
 
                             process_speech = False
                             print("")
+
+            else:
+                counter += 1
+
+        else:
+            counter += 1
+
 
 
 def listen(api):
@@ -114,6 +137,7 @@ def review_mode(pygame, key_enter, key_back, key_exit):
 
     # wait for "return" keypress -> listen to audio
     while True:
+        print("hello")
         # leap motion frames
         get_frame(controller)
 
@@ -139,6 +163,8 @@ def review_mode(pygame, key_enter, key_back, key_exit):
             # keypress to go back to menu
             if keyname == key_exit:
                 break
+
+        time.sleep(0.1)
 
     
 if __name__ == '__main__':

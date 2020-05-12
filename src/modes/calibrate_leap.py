@@ -5,6 +5,7 @@ import Leap
 from Leap import *
 
 import utils
+from params import *
 
 # get complete file name
 import os
@@ -18,6 +19,7 @@ class Pointer(Leap.Listener):
 
     def on_init(self, controller):
         self.TRANSLATION_PROBABILITY_THRESHOLD = 0.5
+        self.counter = 0 
 
     def on_connect(self, controller):
         print("Connected.")
@@ -29,20 +31,34 @@ class Pointer(Leap.Listener):
         frame = controller.frame()
         right_hand = list(filter(lambda hand: hand.is_right, frame.hands))
 
-        # get right hand
-        if right_hand:
-            right_hand = right_hand[0]
+        if frame.hands:
 
-            # facing downwards
-            if right_hand.palm_normal[1]>0:
+            if self.counter > WARPED_COUNT:
+                utils.speak("Please reset your hands, and make sure your right hand is facing downwards.")
+                self.counter = 0
 
-                # estimated probability that the hand motion between the current frame and the specified frame is intended to be a translating motion
-                if right_hand.translation_probability > self.TRANSLATION_PROBABILITY_THRESHOLD:
+            # get right hand
+            if right_hand:
+                right_hand = right_hand[0]
 
-                    # 1: index finger, 0: only one index finger on right hand
-                    index_finger = right_hand.fingers.finger_type(1)[0] 
-                    x = index_finger.stabilized_tip_position.x
-                    print(x)
+                # facing downwards
+                if right_hand.palm_normal[1]>0:
+
+                    self.counter = 0
+
+                    # estimated probability that the hand motion between the current frame and the specified frame is intended to be a translating motion
+                    if right_hand.translation_probability > self.TRANSLATION_PROBABILITY_THRESHOLD:
+
+                        # 1: index finger, 0: only one index finger on right hand
+                        index_finger = right_hand.fingers.finger_type(1)[0] 
+                        x = index_finger.stabilized_tip_position.x
+                        print(x)
+
+                else:
+                    self.counter += 1
+
+            else:
+                self.counter += 1
 
 
 def track_leap(pygame, key_left, key_right, key_enter, key_back, key_shutdown):

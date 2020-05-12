@@ -14,10 +14,11 @@ Slides: https://drive.google.com/open?id=1GFmHU4PHQUvV5RwFjD5UO8hYAmBete4IV2XkY2
 Video: https://youtu.be/EX9FyhGWBtQ     
 Slides: https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM     
 
-#### Final Report
+#### Final Submission
 Video: TBD                           
-Slides: TBD                         
-Paper: TBD
+Slides: https://drive.google.com/open?id=1IzqvfLHKXQMqJVRoK4RHkVPUROoBIYn_3QGYzvxRu4Q                         
+Report: https://drive.google.com/open?id=1IALhN5d4B-JnODCCNb1j1C23TWInbQ1WDDUx7BBCy9Y
+Github: https://github.com/sabinach/braille-elearner
 
 -----------------------------
 
@@ -70,8 +71,8 @@ Paper: TBD
 - ```review.py``` - review mode
 
 #### Parameters and Helper functions (src)            
-```params.py``` - parameters                  
-```utils.py``` - helper functions
+- ```params.py``` - parameters                  
+- ```utils.py``` - helper functions
 
 ---
 
@@ -91,54 +92,54 @@ Paper: TBD
 ## Software Package Requirements
 
 #### PyPi Speech Recognition                   
-```pip install SpeechRecognition```                       
-https://pypi.org/project/SpeechRecognition/                             
-https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_recognition.py      
+- ```pip install SpeechRecognition```                       
+- https://pypi.org/project/SpeechRecognition/                             
+- https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_recognition.py      
 
 #### For microphone
-```brew install portaudio```                
-```pip install pyaudio```
+- ```brew install portaudio```                
+- ```pip install pyaudio```
 
 #### Google Web Speech API
-```pip install google-api-python-client```
+- ```pip install google-api-python-client```
 
 #### Pygame
-```pip install pygame```
+- ```pip install pygame```
 
 #### Pocket Sphinx API 
-```brew install swig git python```                        
-```pip install pocketsphinx```
+- ```brew install swig git python```                        
+- ```pip install pocketsphinx```
 
 #### OpenCV
-```pip install opencv-python```                          
-```pip install opencv-contrib-python```                   
-```pip install opencv-python-headless```
+- ```pip install opencv-python```                          
+- ```pip install opencv-contrib-python```                   
+- ```pip install opencv-python-headless```
 
 #### Numpy
-```pip install numpy``` 
+- ```pip install numpy``` 
 
 #### Pathlib
-```pip install pathlib```
+- ```pip install pathlib```
 
 #### AppleScript wrapper
-```pip install osascript```
+- ```pip install osascript```
 
 #### Monitor and control user input devices
-```pip install pynput```
+- ```pip install pynput```
 
 #### Process and system monitoring
-```pip install psutil```
+- ```pip install psutil```
 
 #### For faster operations (optional)
-```pip install monotonic```
+- ```pip install monotonic```
 
 #### Text-to-speech (optional)
-```pip install pyttsx3```
+- ```pip install pyttsx3```
 
 ---
 
-## Physical Set Up
+## Physical Hardware Set Up
 
-![Physical Set Up](https://github.com/sabinach/braille-elearner/blob/master/img/physical_setup.png)
+![Physical Hardware Set Up](https://github.com/sabinach/braille-elearner/blob/master/img/physical_setup.png)
 
 

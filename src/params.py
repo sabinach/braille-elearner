@@ -1,12 +1,5 @@
 ###----- Leap Motion -----###
 
-#MIN_X = -106 # rightmost
-#MAX_X = 58 # leftmost
-
-# Constants
-#NUM_CELLS = 10
-#CELL_LENGTH = (MAX_X-MIN_X)/(NUM_CELLS)
-
 # Leap Motion
 HAND_CONFIDENCE_THRESH = 0.3	# decimal probability
 TRANSLATION_PROB_THRESH = 0.3   # decimal probability
@@ -18,6 +11,12 @@ INTRO = False					# welcome speech
 # Listening
 TIMEOUT = 7						# sec
 API="google"					# google/sphinx
+
+# Often misheard letters
+MISHEARD_LETTERS = {"bee": "b", "sea": "c", "see": "c", "jay": "j", "why": "y"}
+
+# Hand Tracking
+WARPED_COUNT = 10000
 
 ###----- Camera -----###
 
@@ -55,9 +54,8 @@ EXIT = "escape"
 
 VOLUME_STEPSIZE = 4
 SPEED_STEPSIZE = 50
-INITIAL_SPEED = 450 	  # 200
+INITIAL_SPEED = 400 	  # 200
 INITIAL_VERBOSITY = False # True: include instructions, False: forego instructions
-INITIAL_IMAGE = False     # True: visual, False: blind
 
 # Bundle identifiers: osascript -e 'id of app "Name of App"'
 #ITERM_ID = "com.googlecode.iterm2"

@@ -1,4 +1,4 @@
-# Main file (this was written extremely hastily and messily, will clean up code in the future..)
+# Main file (This was written EXTREMELY hastily and messily.. will clean up code in the future..)
 
 import sys
 sys.path.insert(0, 'modes/')
@@ -25,8 +25,6 @@ VERBOSITY = 5
 IMAGES = 6
 GENERATE_LEARN = 7
 GENERATE_REVIEW = 8
-LEARN_MODE = 9
-REVIEW_MODE = 10 
 
 # states and sub_states
 main_list = ["user modes", "settings"]
@@ -137,7 +135,6 @@ def main_menu():
 
                     # LEARN MODE
                     if mode == "learn":
-                        # go back to settings
                         state = GENERATE_LEARN
                         new_state = True
                         print("Generate new dots?.. Press LEFT/RIGHT to toggle choice, SPACE to enter, and DELETE to exit.")
@@ -149,18 +146,13 @@ def main_menu():
 
                     # REVIEW MODE
                     elif mode == "review":
-                        print("Starting review mode.. Press SPACE to guess, and DELETE to exit.")
-                        utils.speak("Starting review mode.")
-                        if verbose_level:
-                            utils.speak("Move your finger over the braille cells. Press SPACE to verbalize your guess, and DELETE to exit.")
-                        review.review_mode(pygame, key_enter=ENTER, key_back=BACK, key_exit=EXIT)
-                        utils.speak("exiting review mode")
-
-                        # go back to settings
-                        state = USER
-                        sub_state = user_list.index("review mode")
-                        utils.speak("back to user modes")
+                        state = GENERATE_REVIEW
                         new_state = True
+                        print("Generate new dots?.. Press LEFT/RIGHT to toggle choice, SPACE to enter, and DELETE to exit.")
+                        utils.speak("Do you want to generate new dots?")
+                        if verbose_level:
+                            utils.speak("Press the LEFT and RIGHT arrows to toggle choice. Press SPACE to enter, and DELETE to exit.")
+                        utils.speak("Current choice is: {}".format(generate_new))
                     
 
                 elif keyname == BACK:
@@ -339,8 +331,6 @@ def main_menu():
                     new_state = True
 
                 elif keyname == ENTER:
-                    state = LEARN_MODE
-                    new_state = True
                     utils.speak("selected")
                     
                     if generate_new:
@@ -382,8 +372,62 @@ def main_menu():
                         sub_state = user_list.index("learn mode")
                         utils.speak("back to user modes")
                         new_state = True
-                
 
+
+            elif state == GENERATE_REVIEW:
+                if (keyname == MOVE_BACK) or (keyname == MOVE_NEXT):
+                    generate_new = not generate_new
+                    utils.speak(str(generate_new))
+
+                elif keyname == BACK:
+                    # go back to settings
+                    state = USER
+                    sub_state = user_list.index("review mode")
+                    utils.speak("back to user modes")
+                    new_state = True
+
+                elif keyname == ENTER:
+                    utils.speak("selected")
+                    
+                    if generate_new:
+                        print("Generating new dots. Match the symbols... Press LEFT/RIGHT to move between cells, SPACE to hear dot numbers, and DELETE to exit.")
+                        utils.speak("Please match the generated symbols.")
+                        if verbose_level:
+                            utils.speak("Match the symbols shown in the image by pushing up the pegs from the bottom of the peg slate. Press the LEFT and RIGHT arrows to move between cells. Press SPACE to hear dot numbers. Press DELETE to exit")
+                            if image_level:
+                                utils.speak("When cells match, their box will turn green.")
+                        all_match = generate_dots.setup_mode()
+
+                        if all_match:
+                            utils.speak("Completed setup")
+
+                            print("Starting review mode.. Press SPACE to guess, and DELETE to exit.")
+                            utils.speak("Starting review mode.")
+                            if verbose_level:
+                                utils.speak("Move your finger over the braille cells. Press SPACE to verbalize your guess, and DELETE to exit.")
+                            review.review_mode(pygame, key_enter=ENTER, key_back=BACK, key_exit=EXIT)
+                            utils.speak("exiting review mode")
+
+                        else:
+                            # go back to settings
+                            state = USER
+                            sub_state = user_list.index("review mode")
+                            utils.speak("back to user modes")
+                            new_state = True
+
+                    else:
+                        print("Starting review mode.. Press SPACE to guess, and DELETE to exit.")
+                        utils.speak("Starting review mode.")
+                        if verbose_level:
+                            utils.speak("Move your finger over the braille cells. Press SPACE to verbalize your guess, and DELETE to exit.")
+                        review.review_mode(pygame, key_enter=ENTER, key_back=BACK, key_exit=EXIT)
+                        utils.speak("exiting review mode")
+
+                        # go back to settings
+                        state = USER
+                        sub_state = user_list.index("review mode")
+                        utils.speak("back to user modes")
+                        new_state = True
 
 
 
