@@ -13,7 +13,7 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 
 -----------------------------
 
-### Ready-to-Run (all dependencies installed, hardware set-up, etc.)
+### Quick Setup (only run if all dependencies installed, hardware set-up, etc.)
 
 #### To activate venv
 - ```source venv/bin/activate```
@@ -24,7 +24,6 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 
 #### PERSONAL NOTE (everyone else can ignore):
 - Make sure your conda, python, and python3 aliases in ~/.bash_profile are commented out before you activate venv!
-- Computer: MacOSX (Mojave 10.14.6)
 
 -----------------------------
 
@@ -72,7 +71,8 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 ## Hardware
 - [Peg Slate](https://www.aph.org/product/peg-slate/)
 - [Logitech C270 Webcam](https://www.amazon.com/gp/product/B004FHO5Y6)
-- [Leap Motion Controller](https://www.ultraleap.com/product/leap-motion-controller/) (Leap Motion SDK - Mac 2.3.1)
+- [Leap Motion Controller, 2013](https://www.ultraleap.com/product/leap-motion-controller/) (Leap Motion Desktop SDK for Mac, Version 2.3.1)
+- [MacBook Pro 15-inch, 2018] (https://www.apple.com/shop/refurbished/mac/2018-15-inch) (Mojave 10.14.6)
 
 ## Software
 - ```virtualenv venv -p python2.7```
@@ -83,8 +83,6 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 
 #### PyPi Speech Recognition                   
 - ```pip install SpeechRecognition```                       
-- https://pypi.org/project/SpeechRecognition/                             
-- https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_recognition.py      
 
 #### For microphone
 - ```brew install portaudio```                
