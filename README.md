@@ -72,7 +72,7 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 - [Peg Slate](https://www.aph.org/product/peg-slate/)
 - [Logitech C270 Webcam](https://www.amazon.com/gp/product/B004FHO5Y6)
 - [Leap Motion Controller, 2013](https://www.ultraleap.com/product/leap-motion-controller/) (Leap Motion Desktop SDK for Mac, Version 2.3.1)
-- [MacBook Pro 15-inch, 2018] (https://www.apple.com/shop/refurbished/mac/2018-15-inch) (Mojave 10.14.6)
+- [MacBook Pro 15-inch, 2018](https://www.apple.com/shop/refurbished/mac/2018-15-inch) (Mojave 10.14.6)
 
 ## Software
 - ```virtualenv venv -p python2.7```
