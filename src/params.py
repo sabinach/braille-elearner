@@ -55,8 +55,9 @@ EXIT = "escape"
 
 VOLUME_STEPSIZE = 4
 SPEED_STEPSIZE = 50
-INITIAL_SPEED = 450 #200
-INITIAL_VERBOSITY = False
+INITIAL_SPEED = 450 	  # 200
+INITIAL_VERBOSITY = False # True: include instructions, False: forego instructions
+INITIAL_IMAGE = False     # True: visual, False: blind
 
 # Bundle identifiers: osascript -e 'id of app "Name of App"'
 #ITERM_ID = "com.googlecode.iterm2"

@@ -1,3 +1,5 @@
+# Main file (this was written extremely hastily and messily, might clean up code in the future..)
+
 import sys
 sys.path.insert(0, 'modes/')
 
@@ -19,20 +21,22 @@ SETTINGS = 2
 VOLUME = 3
 SPEED = 4
 VERBOSITY = 5
+IMAGES = 6
 
 # states and sub_states
 main_list = ["user modes", "settings"]
 user_list = ["learn mode", "review mode"]
-settings_list = ["calibrate leap", "calibrate camera", "volume", "speed", "verbosity"]
+settings_list = ["calibrate leap", "calibrate camera", "volume", "speed", "verbosity", "images"]
 
 # initial settings
 volume_level = utils.get_current_volume()
 speed_level = utils.set_speed(INITIAL_SPEED)
 verbose_level = INITIAL_VERBOSITY
+image_level = INITIAL_IMAGE
 
 
 def main_menu():
-    global verbose_level, volume_level, verbose_level
+    global verbose_level, volume_level, verbose_level, image_level
 
     # overall state
     state = 0
@@ -130,7 +134,7 @@ def main_menu():
                         print("Starting learn mode.. Press DELETE to exit.")
                         utils.speak("Starting learn mode.")
                         if verbose_level:
-                            utils.speak("Move your finger over the braille cells to hear the symbol name.")
+                            utils.speak("Move your finger over the braille cells to hear the symbol name.  Press DELETE to exit.")
                         learn.learn_mode(pygame, key_back=BACK, key_exit=EXIT)
                         utils.speak("exiting learn mode")
 
@@ -145,7 +149,7 @@ def main_menu():
                         print("Starting review mode.. Press SPACE to guess, and DELETE to exit.")
                         utils.speak("Starting review mode.")
                         if verbose_level:
-                            utils.speak("Move your finger over the braille cells. Press SPACE to verbalize your guess.")
+                            utils.speak("Move your finger over the braille cells. Press SPACE to verbalize your guess, and DELETE to exit.")
                         review.review_mode(pygame, key_enter=ENTER, key_back=BACK, key_exit=EXIT)
                         utils.speak("exiting review mode")
 
@@ -190,7 +194,7 @@ def main_menu():
                             print("Calibrating leap.. Press LEFT/RIGHT to set boundaries, SPACE to save, DELETE to exit.")
                             utils.speak("Calibrating leap")
                             if verbose_level:
-                                utils.speak("Press the LEFT and RIGHT arrows to set boundaries. Press SPACE to save calibration")
+                                utils.speak("Press the LEFT and RIGHT arrows to set boundaries. Press SPACE to save calibration, and DELETE to exit.")
                             calibrate_leap.track_leap(pygame, key_left=MOVE_BACK, key_right=MOVE_NEXT, key_enter=ENTER, key_back=BACK, key_shutdown=EXIT)
 
                             # go back to settings
@@ -204,7 +208,7 @@ def main_menu():
                             print("Calibrating camera.. Press SPACE to save, and DELETE to exit.")
                             utils.speak("Calibrating camera")
                             if verbose_level:
-                                utils.speak("Press SPACE to save calibration")
+                                utils.speak("Press SPACE to save calibration, and DELETE to exit.")
                             calibrate_camera.get_video()
                             utils.speak("Camera calibration saved")
 
@@ -222,7 +226,7 @@ def main_menu():
                             utils.speak("selected")
                             print("Volume settings.. Press LEFT/RIGHT to change volume, and DELETE to exit.")
                             if verbose_level:
-                                utils.speak("Press the LEFT and RIGHT arrows to change the volume.")
+                                utils.speak("Press the LEFT and RIGHT arrows to change the volume. Press DELETE to exit.")
                             utils.speak("Current volume is: {}".format(volume_level))
 
                         elif mode == "speed":
@@ -231,7 +235,7 @@ def main_menu():
                             utils.speak("selected")
                             print("Speed settings.. Press LEFT/RIGHT to edit speech speed, and DELETE to exit.")
                             if verbose_level:
-                                utils.speak("Press the LEFT and RIGHT arrows to change the speech speed.")
+                                utils.speak("Press the LEFT and RIGHT arrows to change the speech speed. Press DELETE to exit.")
                             utils.speak("Current speed is: {}".format(utils.get_current_speed()))
 
                         elif mode == "verbosity":
@@ -240,15 +244,24 @@ def main_menu():
                             utils.speak("selected")
                             print("Verbosity level.. Press LEFT/RIGHT to toggle verbosity, and DELETE to exit.")
                             if verbose_level:
-                                utils.speak("Press the LEFT and RIGHT arrows to toggle verbosity.")
+                                utils.speak("Press the LEFT and RIGHT arrows to toggle verbosity. Press DELETE to exit.")
                             utils.speak("Current verbosity is: {}".format(verbose_level))
 
+                        elif mode == "images":
+                            state = IMAGES
+                            new_state = True
+                            utils.speak("selected")
+                            print("Image settings.. Press LEFT/RIGHT to toggle image availability for peg slate set up, and DELETE to exit.")
+                            if verbose_level:
+                                utils.speak("Press the LEFT and RIGHT arrows to toggle image availability for peg slate set up. Press DELETE to exit.")
+                            utils.speak("Current image settings is: {}".format(image_level))
 
                 elif keyname == BACK:
                     state = MAIN
                     sub_state = main_list.index("settings")
                     utils.speak("back to main menu")
                     new_state = True
+
 
             elif state == VOLUME:
                 if keyname == MOVE_BACK:
@@ -297,7 +310,16 @@ def main_menu():
                     utils.speak("back to settings")
                     new_state = True
 
+            elif state == IMAGES:
+                if (keyname == MOVE_BACK) or (keyname == MOVE_NEXT):
+                    image_level = not image_level
+                    utils.speak(str(image_level))
 
+                elif keyname == BACK:
+                    state = SETTINGS
+                    sub_state = settings_list.index("images")
+                    utils.speak("back to settings")
+                    new_state = True
 
 
 if __name__ == '__main__':
