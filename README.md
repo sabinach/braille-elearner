@@ -1,14 +1,27 @@
 # Braille E-Learner
 
-### 6.835 Spring 2020 - Final Project
+## 6.835 Spring 2020 - Final Project
 
-#### PERSONAL NOTE (everyone else can ignore):
-- Make sure your conda, python, and python3 aliases in ~/.bash_profile are commented out before you activate venv!
-- Computer: MacOSX (Mojave 10.14.6)
+#### Design Studio
+Video: https://youtu.be/wEaPDDkwDiw       
+Slides: https://drive.google.com/open?id=1tEz1OheHGrnJrmK5jLfY6nWv8qXapQIAwwBbB38WqdY
+
+#### Prototype Studio
+Video: https://youtu.be/Sj2WTw3c4sc      
+Slides: https://drive.google.com/open?id=1GFmHU4PHQUvV5RwFjD5UO8hYAmBete4IV2XkY2GFOoQ      
+
+#### Implementation Studio
+Video: https://youtu.be/EX9FyhGWBtQ     
+Slides: https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM     
+
+#### Final Report
+Video: TBD                           
+Slides: TBD                         
+Paper: TBD
 
 -----------------------------
 
-## Ready-to-run (all dependencies installed, hardware set-up, etc.)
+### Ready-to-run (all dependencies installed, hardware set-up, etc.)
 
 #### To activate venv
 ```source venv/bin/activate```
@@ -16,6 +29,10 @@
 #### To run script
 ```cd src```            
 ```python2.7 main.py```  
+
+#### PERSONAL NOTE (everyone else can ignore):
+- Make sure your conda, python, and python3 aliases in ~/.bash_profile are commented out before you activate venv!
+- Computer: MacOSX (Mojave 10.14.6)
 
 -----------------------------
 
@@ -40,17 +57,17 @@
 
 ### File Descriptions
 
-#### Top Script (src)     
-- ```main.py``` (primary script that integrates all the separate modes together)
+#### Top-level Script (src)     
+- ```main.py``` - primary script that integrates all the separate modes together
 
 #### Global calibration (src/modes)    
-- ```calibrate_leap.py``` (set the finger minX/maxX boundaries)               
-- ```calibrate_camera.py``` (save cell/dot boundaries) 
+- ```calibrate_leap.py``` - set the finger minX/maxX boundaries               
+- ```calibrate_camera.py``` - save cell/dot boundaries
 
 #### User Modes (src/modes)    
-- ```generate_dots.py``` (generate new symbol orders, guide users in setting up peg slate)          
-- ```learn.py``` (learn mode)         
-- ```review.py``` (review mode)
+- ```generate_dots.py``` - generate new symbol orders, guide users in setting up peg slate          
+- ```learn.py``` - learn mode         
+- ```review.py``` - review mode
 
 #### Parameters and Helper functions (src)            
 ```params.py``` - parameters                  
@@ -67,12 +84,8 @@
 
 ## Set Up Virtual Environment
 
-1. Create new venv
-```virtualenv venv -p python2.7```
-
-2. Activate venv:
-```source venv/bin/activate```
-
+1. Create new venv:	```virtualenv venv -p python2.7```
+2. Activate venv:	```source venv/bin/activate```
 3. Install package requirements (specified below)
 
 ## Software Package Requirements
@@ -124,28 +137,7 @@ https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_reco
 
 ---
 
-### Project Checkpoints
-
-#### Design Studio
-Video: https://youtu.be/wEaPDDkwDiw       
-Slides: https://drive.google.com/open?id=1tEz1OheHGrnJrmK5jLfY6nWv8qXapQIAwwBbB38WqdY
-
-#### Prototype Studio
-Video: https://youtu.be/Sj2WTw3c4sc      
-Slides: https://drive.google.com/open?id=1GFmHU4PHQUvV5RwFjD5UO8hYAmBete4IV2XkY2GFOoQ      
-
-#### Implementation Studio
-Video: https://youtu.be/EX9FyhGWBtQ     
-Slides: https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM     
-
-#### Final Report
-Video: TBD                           
-Slides: TBD                         
-Paper: TBD
-
----
-
-### Physical Set Up
+## Physical Set Up
 
 ![Physical Set Up](https://github.com/sabinach/braille-elearner/blob/master/img/physical_setup.png)
 
