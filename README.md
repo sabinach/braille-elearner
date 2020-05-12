@@ -5,20 +5,11 @@
 #### Project Description
 Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learning system that teaches users Braille through an interactive feedback system. This system enables users to learn Braille by themselves without the need for an actual instructor on the side.
 
-#### Final Submission (Due: May 12, 2020)
-[[Video](https://youtu.be/giAB9cWnbE4)] [[Slides](https://drive.google.com/open?id=1IzqvfLHKXQMqJVRoK4RHkVPUROoBIYn_3QGYzvxRu4Q)] [[Report](https://drive.google.com/open?id=1IALhN5d4B-JnODCCNb1j1C23TWInbQ1WDDUx7BBCy9Y)] [[Code](https://github.com/sabinach/braille-elearner)]
-
-#### Implementation Studio (Due: April 21, 2020)
-Video: https://youtu.be/EX9FyhGWBtQ     
-Slides: https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM     
-
-#### Prototype Studio (Due: April 09, 2020)
-Video: https://youtu.be/Sj2WTw3c4sc      
-Slides: https://drive.google.com/open?id=1GFmHU4PHQUvV5RwFjD5UO8hYAmBete4IV2XkY2GFOoQ      
-
-#### Design Studio (Due: March 21, 2020)
-Video: https://youtu.be/wEaPDDkwDiw       
-Slides: https://drive.google.com/open?id=1tEz1OheHGrnJrmK5jLfY6nWv8qXapQIAwwBbB38WqdY
+#### Project Deliverables
+- Final Submission [[Video](https://youtu.be/giAB9cWnbE4)] [[Slides](https://drive.google.com/open?id=1IzqvfLHKXQMqJVRoK4RHkVPUROoBIYn_3QGYzvxRu4Q)] [[Report](https://drive.google.com/open?id=1IALhN5d4B-JnODCCNb1j1C23TWInbQ1WDDUx7BBCy9Y)] [[Code](https://github.com/sabinach/braille-elearner)]
+- Implementation Studio [[Video](https://youtu.be/EX9FyhGWBtQ)] [[Slides](https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM)]
+- Prototype Studio [[Video](https://youtu.be/Sj2WTw3c4sc)] [[Slides](https://drive.google.com/open?id=1GFmHU4PHQUvV5RwFjD5UO8hYAmBete4IV2XkY2GFOoQ)]
+- Design Studio [[Video](https://youtu.be/wEaPDDkwDiw )] [[Slides](https://drive.google.com/open?id=1tEz1OheHGrnJrmK5jLfY6nWv8qXapQIAwwBbB38WqdY)]
 
 -----------------------------
 
@@ -46,7 +37,7 @@ Slides: https://drive.google.com/open?id=1tEz1OheHGrnJrmK5jLfY6nWv8qXapQIAwwBbB3
 - Images used for braille symbol generation
 
 #### json/
-- Settings
+- Calibration and symbol generation settings
 
 #### lib/
 - Leap motion SDK
@@ -155,19 +146,4 @@ Slides: https://drive.google.com/open?id=1tEz1OheHGrnJrmK5jLfY6nWv8qXapQIAwwBbB3
 ## Keyboard Setup
 
 ![Keyboard Setup](https://github.com/sabinach/braille-elearner/blob/master/img/keyboard_setup.png)
-
----
-
-## Peg Slate Calibration
-
-![Peg Slate Calibration](https://github.com/sabinach/braille-elearner/blob/master/img/pegslate_calibration.png)
-
----
-
-## Peg Slate Set Up
-
-![Peg Slate Setup](https://github.com/sabinach/braille-elearner/blob/master/img/pegslate_setup.png)
-
-
-
 
