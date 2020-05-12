@@ -1,4 +1,4 @@
-# Main file (this was written extremely hastily and messily, might clean up code in the future..)
+# Main file (this was written extremely hastily and messily, will clean up code in the future..)
 
 import sys
 sys.path.insert(0, 'modes/')
@@ -13,6 +13,7 @@ import calibrate_camera
 import calibrate_leap
 import learn
 import review
+import generate_dots
 
 # States
 MAIN = 0
@@ -22,6 +23,10 @@ VOLUME = 3
 SPEED = 4
 VERBOSITY = 5
 IMAGES = 6
+GENERATE_LEARN = 7
+GENERATE_REVIEW = 8
+LEARN_MODE = 9
+REVIEW_MODE = 10 
 
 # states and sub_states
 main_list = ["user modes", "settings"]
@@ -33,10 +38,11 @@ volume_level = utils.get_current_volume()
 speed_level = utils.set_speed(INITIAL_SPEED)
 verbose_level = INITIAL_VERBOSITY
 image_level = INITIAL_IMAGE
+generate_new = True
 
 
 def main_menu():
-    global verbose_level, volume_level, verbose_level, image_level
+    global verbose_level, volume_level, verbose_level, image_level, generate_new
 
     # overall state
     state = 0
@@ -131,20 +137,17 @@ def main_menu():
 
                     # LEARN MODE
                     if mode == "learn":
-                        print("Starting learn mode.. Press DELETE to exit.")
-                        utils.speak("Starting learn mode.")
-                        if verbose_level:
-                            utils.speak("Move your finger over the braille cells to hear the symbol name.  Press DELETE to exit.")
-                        learn.learn_mode(pygame, key_back=BACK, key_exit=EXIT)
-                        utils.speak("exiting learn mode")
-
                         # go back to settings
-                        state = USER
-                        sub_state = user_list.index("learn mode")
-                        utils.speak("back to user modes")
+                        state = GENERATE_LEARN
                         new_state = True
+                        print("Generate new dots?.. Press LEFT/RIGHT to toggle choice, SPACE to enter, and DELETE to exit.")
+                        utils.speak("Do you want to generate new dots?")
+                        if verbose_level:
+                            utils.speak("Press the LEFT and RIGHT arrows to toggle choice. Press SPACE to enter, and DELETE to exit.")
+                        utils.speak("Current choice is: {}".format(generate_new))
 
 
+                    # REVIEW MODE
                     elif mode == "review":
                         print("Starting review mode.. Press SPACE to guess, and DELETE to exit.")
                         utils.speak("Starting review mode.")
@@ -206,9 +209,10 @@ def main_menu():
                         # CALIBRATE CAMERA
                         elif mode == "camera":
                             print("Calibrating camera.. Press SPACE to save, and DELETE to exit.")
+                            print("\tMake sure all the dots are pushed up!")
                             utils.speak("Calibrating camera")
                             if verbose_level:
-                                utils.speak("Press SPACE to save calibration, and DELETE to exit.")
+                                utils.speak("Make sure all the dots are pushed up. Press SPACE to save calibration, and DELETE to exit.")
                             calibrate_camera.get_video()
                             utils.speak("Camera calibration saved")
 
@@ -320,6 +324,67 @@ def main_menu():
                     sub_state = settings_list.index("images")
                     utils.speak("back to settings")
                     new_state = True
+
+
+            elif state == GENERATE_LEARN:
+                if (keyname == MOVE_BACK) or (keyname == MOVE_NEXT):
+                    generate_new = not generate_new
+                    utils.speak(str(generate_new))
+
+                elif keyname == BACK:
+                    # go back to settings
+                    state = USER
+                    sub_state = user_list.index("learn mode")
+                    utils.speak("back to user modes")
+                    new_state = True
+
+                elif keyname == ENTER:
+                    state = LEARN_MODE
+                    new_state = True
+                    utils.speak("selected")
+                    
+                    if generate_new:
+                        print("Generating new dots. Match the symbols... Press LEFT/RIGHT to move between cells, SPACE to hear dot numbers, and DELETE to exit.")
+                        utils.speak("Please match the generated symbols.")
+                        if verbose_level:
+                            utils.speak("Match the symbols shown in the image by pushing up the pegs from the bottom of the peg slate. Press the LEFT and RIGHT arrows to move between cells. Press SPACE to hear dot numbers. Press DELETE to exit")
+                            if image_level:
+                                utils.speak("When cells match, their box will turn green.")
+                        all_match = generate_dots.setup_mode()
+
+                        if all_match:
+                            utils.speak("Completed setup")
+
+                            print("Starting learn mode.. Press DELETE to exit.")
+                            utils.speak("Starting learn mode.")
+                            if verbose_level:
+                                utils.speak("Move your finger over the braille cells to hear the symbol name. Press DELETE to exit.")
+                            learn.learn_mode(pygame, key_back=BACK, key_exit=EXIT)
+                            utils.speak("exiting learn mode")
+
+                        else:
+                            # go back to settings
+                            state = USER
+                            sub_state = user_list.index("learn mode")
+                            utils.speak("back to user modes")
+                            new_state = True
+
+                    else:
+                        print("Starting learn mode.. Press DELETE to exit.")
+                        utils.speak("Starting learn mode.")
+                        if verbose_level:
+                            utils.speak("Move your finger over the braille cells to hear the symbol name.  Press DELETE to exit.")
+                        learn.learn_mode(pygame, key_back=BACK, key_exit=EXIT)
+                        utils.speak("exiting learn mode")
+
+                        # go back to settings
+                        state = USER
+                        sub_state = user_list.index("learn mode")
+                        utils.speak("back to user modes")
+                        new_state = True
+                
+
+
 
 
 if __name__ == '__main__':

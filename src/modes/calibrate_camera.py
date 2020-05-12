@@ -65,8 +65,6 @@ def number_pegs(img, peg_centers, x_dividers):
 
 def get_video():
 
-    print("Press SPACE (image focus) to save dot calibration")
-
     cap = cv2.VideoCapture(VIDEO_PORT)
     
     width  = int(cap.get(3)) # 1280
