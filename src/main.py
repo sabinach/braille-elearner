@@ -6,9 +6,6 @@ import pygame
 import utils
 from params import *
 
-# set active keyboard
-from pynput.keyboard import Key, Controller
-
 # Modes
 import calibrate_camera
 import calibrate_leap
@@ -23,17 +20,19 @@ VOLUME = 3
 SPEED = 4
 VERBOSITY = 5
 
-# verbalize instructions every time
-VERBOSE = False
-
 # states and sub_states
 main_list = ["user modes", "settings"]
 user_list = ["learn mode", "review mode"]
 settings_list = ["calibrate leap", "calibrate camera", "volume", "speed", "verbosity"]
-verbose_list = ["True", "False"]
+
+# initial settings
+volume_level = utils.get_current_volume()
+speed_level = utils.set_speed(INITIAL_SPEED)
+verbose_level = INITIAL_VERBOSITY
 
 
 def main_menu():
+    global verbose_level, volume_level, verbose_level
 
     # overall state
     state = 0
@@ -130,7 +129,8 @@ def main_menu():
                     if mode == "learn":
                         print("Starting learn mode.. Press DELETE to exit.")
                         utils.speak("Starting learn mode.")
-                        utils.speak("Move your finger over the braille cells to hear the symbol name.")
+                        if verbose_level:
+                            utils.speak("Move your finger over the braille cells to hear the symbol name.")
                         learn.learn_mode(pygame, key_back=BACK, key_exit=EXIT)
                         utils.speak("exiting learn mode")
 
@@ -144,7 +144,8 @@ def main_menu():
                     elif mode == "review":
                         print("Starting review mode.. Press SPACE to guess, and DELETE to exit.")
                         utils.speak("Starting review mode.")
-                        utils.speak("Move your finger over the braille cells. Press SPACE to verbalize your guess.")
+                        if verbose_level:
+                            utils.speak("Move your finger over the braille cells. Press SPACE to verbalize your guess.")
                         review.review_mode(pygame, key_enter=ENTER, key_back=BACK, key_exit=EXIT)
                         utils.speak("exiting review mode")
 
@@ -188,7 +189,8 @@ def main_menu():
                         if mode == "leap":
                             print("Calibrating leap.. Press LEFT/RIGHT to set boundaries, SPACE to save, DELETE to exit.")
                             utils.speak("Calibrating leap")
-                            utils.speak("Press the LEFT and RIGHT arrows to set boundaries. Press SPACE to save calibration")
+                            if verbose_level:
+                                utils.speak("Press the LEFT and RIGHT arrows to set boundaries. Press SPACE to save calibration")
                             calibrate_leap.track_leap(pygame, key_left=MOVE_BACK, key_right=MOVE_NEXT, key_enter=ENTER, key_back=BACK, key_shutdown=EXIT)
 
                             # go back to settings
@@ -201,7 +203,8 @@ def main_menu():
                         elif mode == "camera":
                             print("Calibrating camera.. Press SPACE to save, and DELETE to exit.")
                             utils.speak("Calibrating camera")
-                            utils.speak("Press SPACE to save calibration")
+                            if verbose_level:
+                                utils.speak("Press SPACE to save calibration")
                             calibrate_camera.get_video()
                             utils.speak("Camera calibration saved")
 
@@ -216,10 +219,30 @@ def main_menu():
                         if mode == "volume":
                             state = VOLUME
                             new_state = True
+                            utils.speak("selected")
+                            print("Volume settings.. Press LEFT/RIGHT to change volume, and DELETE to exit.")
+                            if verbose_level:
+                                utils.speak("Press the LEFT and RIGHT arrows to change the volume.")
+                            utils.speak("Current volume is: {}".format(volume_level))
+
                         elif mode == "speed":
                             state = SPEED
                             new_state = True
-                        utils.speak("selected")
+                            utils.speak("selected")
+                            print("Speed settings.. Press LEFT/RIGHT to edit speech speed, and DELETE to exit.")
+                            if verbose_level:
+                                utils.speak("Press the LEFT and RIGHT arrows to change the speech speed.")
+                            utils.speak("Current speed is: {}".format(utils.get_current_speed()))
+
+                        elif mode == "verbosity":
+                            state = VERBOSITY
+                            new_state = True
+                            utils.speak("selected")
+                            print("Verbosity level.. Press LEFT/RIGHT to toggle verbosity, and DELETE to exit.")
+                            if verbose_level:
+                                utils.speak("Press the LEFT and RIGHT arrows to toggle verbosity.")
+                            utils.speak("Current verbosity is: {}".format(verbose_level))
+
 
                 elif keyname == BACK:
                     state = MAIN
@@ -229,12 +252,14 @@ def main_menu():
 
             elif state == VOLUME:
                 if keyname == MOVE_BACK:
-                    pass
+                    volume_level -= VOLUME_STEPSIZE
+                    utils.set_volume(volume_level)
+                    utils.speak(str(volume_level))
+
                 elif keyname == MOVE_NEXT:
-                    pass
-                elif keyname == ENTER:
-                    state = None
-                    sub_state = None
+                    volume_level += VOLUME_STEPSIZE
+                    utils.set_volume(volume_level)
+                    utils.speak(str(volume_level))
 
                 elif keyname == BACK:
                     state = SETTINGS
@@ -244,12 +269,16 @@ def main_menu():
 
             elif state == SPEED:
                 if keyname == MOVE_BACK:
-                    pass
+                    speed_level = utils.get_current_speed()
+                    speed_level -= SPEED_STEPSIZE
+                    utils.set_speed(speed_level)
+                    utils.speak(str(speed_level))
+
                 elif keyname == MOVE_NEXT:
-                    pass
-                elif keyname == ENTER:
-                    state = None
-                    sub_state = None
+                    speed_level = utils.get_current_speed()
+                    speed_level += SPEED_STEPSIZE
+                    utils.set_speed(speed_level)
+                    utils.speak(str(speed_level))
 
                 elif keyname == BACK:
                     state = SETTINGS
@@ -258,13 +287,9 @@ def main_menu():
                     new_state = True
 
             elif state == VERBOSITY:
-                if keyname == MOVE_BACK:
-                    pass
-                elif keyname == MOVE_NEXT:
-                    pass
-                elif keyname == ENTER:
-                    state = None
-                    sub_state = None
+                if (keyname == MOVE_BACK) or (keyname == MOVE_NEXT):
+                    verbose_level = not verbose_level
+                    utils.speak(str(verbose_level))
 
                 elif keyname == BACK:
                     state = SETTINGS
@@ -289,9 +314,6 @@ if __name__ == '__main__':
 
     # set window size
     pygame.display.set_mode((200,200)) #width, height
-
-    # keyboard
-    keyboard = Controller()
 
     # main menu
     main_menu()

@@ -13,11 +13,16 @@ from Carbon import AE
 from pynput.keyboard import Key, Controller
 import psutil
 
+# volume
+import osascript
+
 # get complete file name
 import os
 from pathlib import Path
 curr_dir = Path(os.getcwd())
 root_dir = str(curr_dir.parent)
+
+speed_level = None
 
 ###----------- JSON -----------###
 
@@ -51,10 +56,12 @@ def get_leap_boundaries(filepath):
 
 ###----------- Audio -----------###
 
+
 def speak(text):
+    global speed_level
     table = string.maketrans("","")
     cleaned_text = text.translate(table, string.punctuation) 
-    os.system("say '{}'".format(cleaned_text))
+    os.system("say '{}' -r {}".format(cleaned_text, speed_level))
 
 
 def sphinx_api(recognizer, audio):
@@ -81,6 +88,25 @@ def google_api(recognizer, audio):
     except sr.RequestError as e:
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
     return parsed_audio
+
+
+def get_current_volume(): 
+    code, out, err = osascript.run("output volume of (get volume settings)")
+    return int(out)
+
+
+def set_volume(volume):
+    osascript.run("set volume output volume {}".format(volume))
+
+
+def get_current_speed(): 
+    global speed_level
+    return speed_level
+
+
+def set_speed(speed):
+    global speed_level
+    speed_level = speed
 
 
 ###----------- Symbols -----------###
@@ -246,6 +272,7 @@ def concatenate_image(img_names, img_dir, extension='.png'):
 
 
 ###----------- GUI -----------###
+
 
 # deprecated -- no longer needed
 def is_visualizer_active():

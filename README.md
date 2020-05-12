@@ -10,18 +10,18 @@ Make sure your conda, python, and python3 aliases in ~/.bash_profile are comment
 
 #### To run script
 ```cd src```            
-```python main.py```  
+```python2.7 main.py```  
 
 #### Global calibration
-```cd src/calibration```           
-```python calibrate_leap.py``` (finger minX, maxX)                
-```python calibrate_camera.py``` (save cell/dot boundaries) 
+```cd src/modes```           
+```python2.7  calibrate_leap.py``` (finger minX, maxX)                
+```python2.7  calibrate_camera.py``` (save cell/dot boundaries) 
 
 #### Mode Scripts
-```cd src/user```     
-```python generate_dots.py```          
-```python learn.py```          
-```python review.py```
+```cd src/modes```     
+```python2.7  generate_dots.py```          
+```python2.7  learn.py```          
+```python2.7  review.py```
 
 #### Parameters and Helper functions
 ```cd src```                
@@ -45,6 +45,8 @@ Video: https://youtu.be/EX9FyhGWBtQ
 Slides: https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM     
 
 #### Final Report
+Video: TBD                           
+Slides: TBD                         
 Paper: TBD
 
 ---
@@ -105,6 +107,12 @@ https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_reco
 
 #### psutil (optional)
 ```pip install psutil```
+
+#### applescript (optional)
+pip install applescript
+
+#### osascript
+pip install osascript
 
 
 
