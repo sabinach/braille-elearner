@@ -6,7 +6,7 @@
 Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learning system that teaches users Braille through an interactive feedback system. This system enables users to learn Braille by themselves without the need for an actual instructor on the side.
 
 #### Project Deliverables
-- Final Submission [[Video](https://youtu.be/giAB9cWnbE4)] [[Slides](https://drive.google.com/open?id=1IzqvfLHKXQMqJVRoK4RHkVPUROoBIYn_3QGYzvxRu4Q)] [[Report](https://drive.google.com/open?id=1IALhN5d4B-JnODCCNb1j1C23TWInbQ1WDDUx7BBCy9Y)] [[Code](https://github.com/sabinach/braille-elearner)]
+- Final Submission [[Video](https://youtu.be/giAB9cWnbE4)] [[Slides](https://drive.google.com/open?id=1IzqvfLHKXQMqJVRoK4RHkVPUROoBIYn_3QGYzvxRu4Q)] [[Paper](https://docs.google.com/document/d/1BlizAmOquUHdDrOiF7t4cDnJ6tE9qRDb2JzIRpzzC-I/edit?usp=sharing)] [[Code](https://github.com/sabinach/braille-elearner)]
 - Implementation Studio [[Video](https://youtu.be/EX9FyhGWBtQ)] [[Slides](https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM)]
 - Prototype Studio [[Video](https://youtu.be/Sj2WTw3c4sc)] [[Slides](https://drive.google.com/open?id=1GFmHU4PHQUvV5RwFjD5UO8hYAmBete4IV2XkY2GFOoQ)]
 - Design Studio [[Video](https://youtu.be/wEaPDDkwDiw )] [[Slides](https://drive.google.com/open?id=1tEz1OheHGrnJrmK5jLfY6nWv8qXapQIAwwBbB38WqdY)]
@@ -31,6 +31,9 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 
 #### dev/
 - Test scripts used during development (reference code~ not guaranteed to work, not used in final implementation)
+
+#### docs/
+- Miscellaneous documentation related to the project
 
 #### img/
 - Images used for braille symbol generation
@@ -71,8 +74,8 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 ## Hardware
 - [Peg Slate](https://www.aph.org/product/peg-slate/)
 - [Logitech C270 Webcam](https://www.amazon.com/gp/product/B004FHO5Y6)
-- [Leap Motion Controller, 2013](https://www.ultraleap.com/product/leap-motion-controller/) (Leap Motion Desktop SDK for Mac, Version 2.3.1)
-- [MacBook Pro 15-inch, 2018] (https://www.apple.com/shop/refurbished/mac/2018-15-inch) (Mojave 10.14.6)
+- [Leap Motion Controller, 2013](https://www.ultraleap.com/product/leap-motion-controller/) (Leap Motion Desktop Python SDK for Mac, Version 2.3.1)
+- [MacBook Pro 15-inch, 2018] (https://www.apple.com/shop/refurbished/mac/2018-15-inch) (MacOSX Mojave 10.14.6)
 
 ## Software
 - ```virtualenv venv -p python2.7```
@@ -84,11 +87,7 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 #### PyPi Speech Recognition                   
 - ```pip install SpeechRecognition```                       
 
-#### For microphone
-- ```brew install portaudio```                
-- ```pip install pyaudio```
-
-#### Google Web Speech API
+#### Google Cloud Speech API
 - ```pip install google-api-python-client```
 
 #### Pygame
@@ -98,7 +97,7 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 - ```brew install swig git python```                        
 - ```pip install pocketsphinx```
 
-#### OpenCV
+#### OpenCV (Version 4.2.0)
 - ```pip install opencv-python```                          
 - ```pip install opencv-contrib-python```                   
 - ```pip install opencv-python-headless```
@@ -109,13 +108,13 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 #### Pathlib
 - ```pip install pathlib```
 
-#### AppleScript wrapper
+#### osascript AppleScript wrapper
 - ```pip install osascript```
 
-#### Monitor and control user input devices
+#### Monitor and control user input devices (optional)
 - ```pip install pynput```
 
-#### Process and system monitoring
+#### Process and system monitoring (optional)
 - ```pip install psutil```
 
 #### For faster operations (optional)
@@ -124,21 +123,25 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 #### Text-to-speech (optional)
 - ```pip install pyttsx3```
 
+#### For microphone (optional)
+- ```brew install portaudio```                
+- ```pip install pyaudio```
+
 ---
 
 ## System Architecture
 
-![System Architecture](https://github.com/sabinach/braille-elearner/blob/master/img/system_architecture.png)
+![System Architecture](https://github.com/sabinach/braille-elearner/blob/master/docs/system_architecture.png)
 
 ---
 
 ## Example Usage
 
-![Example Usage](https://github.com/sabinach/braille-elearner/blob/master/img/example_usage.png)
+![Example Usage](https://github.com/sabinach/braille-elearner/blob/master/docs/example_usage.png)
 
 ---
 
 ## Hardware Setup
 
-![Hardware Setup](https://github.com/sabinach/braille-elearner/blob/master/img/hardware_setup.png)
+![Hardware Setup](https://github.com/sabinach/braille-elearner/blob/master/docs/hardware_setup.png)
 
