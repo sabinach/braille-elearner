@@ -6,7 +6,7 @@
 Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learning system that teaches users Braille through an interactive feedback system. This system enables users to learn Braille by themselves without the need for an actual instructor on the side.
 
 #### Project Deliverables
-- Final Submission [[Video](https://youtu.be/giAB9cWnbE4)] [[Slides](https://drive.google.com/open?id=1IzqvfLHKXQMqJVRoK4RHkVPUROoBIYn_3QGYzvxRu4Q)] [[Paper](https://docs.google.com/document/d/1BlizAmOquUHdDrOiF7t4cDnJ6tE9qRDb2JzIRpzzC-I/edit?usp=sharing)] [[Code](https://github.com/sabinach/braille-elearner)]
+- Final Submission [[Video](https://youtu.be/giAB9cWnbE4)] [[Slides](https://drive.google.com/open?id=1IzqvfLHKXQMqJVRoK4RHkVPUROoBIYn_3QGYzvxRu4Q)] [[Paper](https://docs.google.com/document/d/1BlizAmOquUHdDrOiF7t4cDnJ6tE9qRDb2JzIRpzzC-I/edit?usp=sharing)]
 - Implementation Studio [[Video](https://youtu.be/EX9FyhGWBtQ)] [[Slides](https://drive.google.com/open?id=10L20eaSqH68sFVSpH1MuKFKV7kZv6fpRwQHiFs6iXlM)]
 - Prototype Studio [[Video](https://youtu.be/Sj2WTw3c4sc)] [[Slides](https://drive.google.com/open?id=1GFmHU4PHQUvV5RwFjD5UO8hYAmBete4IV2XkY2GFOoQ)]
 - Design Studio [[Video](https://youtu.be/wEaPDDkwDiw )] [[Slides](https://drive.google.com/open?id=1tEz1OheHGrnJrmK5jLfY6nWv8qXapQIAwwBbB38WqdY)]
@@ -75,7 +75,7 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 - [Peg Slate](https://www.aph.org/product/peg-slate/)
 - [Logitech C270 Webcam](https://www.amazon.com/gp/product/B004FHO5Y6)
 - [Leap Motion Controller, 2013](https://www.ultraleap.com/product/leap-motion-controller/) (Leap Motion Desktop Python SDK for Mac, Version 2.3.1)
-- [MacBook Pro 15-inch, 2018] (https://www.apple.com/shop/refurbished/mac/2018-15-inch) (MacOSX Mojave 10.14.6)
+- [MacBook Pro 15-inch, 2018](https://www.apple.com/shop/refurbished/mac/2018-15-inch) (MacOSX Mojave 10.14.6)
 
 ## Software
 - ```virtualenv venv -p python2.7```
@@ -111,19 +111,21 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 #### osascript AppleScript wrapper
 - ```pip install osascript```
 
-#### Monitor and control user input devices (optional)
+## Optional Packages (used for dev/test)
+
+#### Monitor and control user input devices
 - ```pip install pynput```
 
-#### Process and system monitoring (optional)
+#### Process and system monitoring
 - ```pip install psutil```
 
-#### For faster operations (optional)
+#### For faster operations
 - ```pip install monotonic```
 
-#### Text-to-speech (optional)
+#### Text-to-speech
 - ```pip install pyttsx3```
 
-#### For microphone (optional)
+#### For microphone
 - ```brew install portaudio```                
 - ```pip install pyaudio```
 
@@ -137,7 +139,7 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 
 ## Example Usage
 
-![Example Usage](https://github.com/sabinach/braille-elearner/blob/master/docs/example_usage.png)
+![Example Usage](https://github.com/sabinach/braille-elearner/blob/master/docs/cover_image.png)
 
 ---
 
