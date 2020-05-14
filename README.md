@@ -108,7 +108,7 @@ Braille E-Learner is a tactile, auditory, and visual (optional) multimodal learn
 #### Pathlib
 - ```pip install pathlib```
 
-#### osascript AppleScript wrapper
+#### osascript (AppleScript wrapper)
 - ```pip install osascript```
 
 ## Optional Packages (used for dev/test)
